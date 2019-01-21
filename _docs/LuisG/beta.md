@@ -1,6 +1,6 @@
 ---
 title: Introduction Beta
-permalink: /docs/LuisG/
+permalink: /docs/beta/
 ---
 
 Placeholder

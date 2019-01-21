@@ -1,6 +1,6 @@
 ---
 title: Introduction Alpha
-permalink: /docs/LuisG/
+permalink: /docs/alpha/
 ---
 
 Placeholder
