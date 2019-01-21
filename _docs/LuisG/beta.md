@@ -1,5 +1,5 @@
 ---
-title: Introduction Beta
+title: Introduction Beta 3
 permalink: /docs/beta/
 ---
 
