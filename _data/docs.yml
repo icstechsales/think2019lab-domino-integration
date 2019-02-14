@@ -1,6 +1,7 @@
 - title: Lab Content
   docs:
   - fullDoc-Intro
+  - MicrosoftTeams
 
 - title: Node-RED domino-db article
   docs:
@@ -11,9 +12,5 @@
 - title: Additional Information
   docs:
   - info-intro
+  - nodes-documentation
   - appdev-pack-infos
-
-- title: Luis
-  docs:
-  - alpha
-  - beta
