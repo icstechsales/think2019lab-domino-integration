@@ -42,6 +42,14 @@ It inquires the **Production DB** using a `@unid` (which comes from a previous n
 This query is used when the user has decided which quote she wants to modify the status for . **unid** is the Alexa slot that is used.
 In case the query fails, a proper **catch node** is used ends the Alexa session.
 
+4. The **Change Status** and **Get Modified Doc** nodes.  
+![](../images/fullDocumentation/Alexa-quotes-06.png)  
+These nodes are, both, instaces of the **DocumentMgr** node. The first performs a **Replace Items** operation (the <strong style="color:red">red arrow</strong>) and the second a **Red Document** operation (the <strong style="color:blue">blue arrow</strong>) where it returns the `status, customer, accountNum, description, seller, TotalCost, UnitCost, total, id, amazonPin, $UpdatedBy, Comments, ActionDate, ApprovalType, Reviewer`fields from the mdofied document.  
+The `msg.DDB_unid` and the `msg.DDB_itemValues` information are passed to the **Change Status** node; the `msg.DDB_unid`information (passed through the **Change Status** node) also arrives to the **Get Modified Doc** node.  
+This query is used when the user has commits the status change . **unid** is the Alexa slot that is used.
+In case the query fails, a proper **catch node** is used ends the Alexa session.
+
+
 <h2>Conclusion</h2>
 That was simple right ?  
 What we proved in this example was that we could really concentrate on the task of properly responding to an incoming request from Microsoft Teams; the fact that we were interacting with <strong style="color: #FEC70B; background-color: black">DOMINO</strong>  has been very much simplified by the use of two cascading <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> without worrying at all about the complexity of how it was implemented.  
