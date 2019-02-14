@@ -14,3 +14,8 @@
   - info-intro
   - nodes-documentation
   - appdev-pack-infos
+
+- title: Connecting Domino 10 to Slack
+  docs:
+  - alpha
+  - beta

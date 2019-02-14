@@ -1,5 +1,5 @@
 ---
-title: Introduction Alpha
+title: Introduction Alpha 2
 permalink: /docs/alpha/
 ---
 
