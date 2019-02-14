@@ -5,12 +5,13 @@ permalink: /docs/MicrosoftTeams/
 
 This page describes the integration with Microsoft Teams that has been shown during the **DOMINO 10 Launch event** in October 2018. 
 
+<h2>The Implementation</h2>
 The idea of the demo was that, once a new ToyMakers Quote was created, an event was generated for Microsoft Teams; the event was represented by an **actionable event** appearing in a Teams space which allowed the user to either Accept or Reject the Quote.
 
 This integration is composed of two parts:
 - the first part happens <strong style="color: #FEC70B; background-color: black">inside DOMINO</strong> and is implemented via an Agent developed in Lotusscript.  
-It corresponds to the part of the processing which triggers the event for the target platform (in this case Microsft Teams) informing about the New Quote that has been created in Domino
-- the second part happens <strong style="color: #FEC70B; background-color: black">outside DOMINO</strong> . It corresponds to the implementation of the implementation of the **action** (the Approve or Reject action) from the target platform (Microsoft Teams).
+It corresponds to the part of the processing which triggers the event for the target platform (in this case Microsft Teams) informing about the New Quote that has been created in <strong style="color: #FEC70B; background-color: black">DOMINO</strong>
+- the second part happens <strong style="color: #FEC70B; background-color: black">outside DOMINO</strong> . It corresponds to the implementation of the  **action** (the Approve or Reject action) from the target platform (Microsoft Teams).
 
 The NodeRED flow managing the **second part of the integration** is shown in the picture below.  
 ![](../images/fullDocumentation/MS-Teams-01.png)
@@ -61,8 +62,25 @@ This Function node is the destination of two inputs:
 
 - The **Answer to Teams** node. <br/> This is an instance of a **NodeRED HTTP Response** node which returns a response to the initial **HTTP-in node**. <br/>This is the main reason we saved the original `msg`coming from the initial **HTTP-in node** and we re-used it in the **Build Result** node (simply adding a new payload).
 
-That was simple right ?  
-What we proved in this example was that we could really concentrate on the task of properly responding to an incoming request from Microsoft Teams; the fact that we were interacting with <strong style="color: #FEC70B; background-color: black">DOMINO</strong>  has been very much simplified by the use of two cascading <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> without worrying at all about the complexity of how it was implemented.
+<h2>Error Handling</h2>
+Since something wrong can always happen, the flow includes a branch to deal with **error handling**.
+![](../images/fullDocumentation/MS-Teams-10.png)  
+There are two types of errors that we decided to manage in the flow:
+1. The first one is to protect our flow against an abuse.  
+If the incoming message from Microsoft Teams is not the *Accept* or *Reject*, then this is a situation our flow cannot deal with.  
+But, the flow needs to honor the reception of the incoming message and inform Teams. This is why we provided a second output to the **Get Action and Unnid** Function node with a simple output payload informing Microsoft Teams that it was not able to manage the request.
+![](../images/fullDocumentation/MS-Teams-11.png)  
+The output payload is directly sent to the **Error Condition HTTP Response** node.
 
+2. The second one is to graciously deal with errors coming from the <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong>.  
+As described in the [official documentation](https://stefanopog.github.io/node-red-contrib-dominodb-docs/docs/fullDoc-ErrorHandling/), all the  <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> trigger an error when they cannot manage the task for which they have been created. This error can be catched using the **standard NodeRED Catch node**.  
+![](../images/fullDocumentation/MS-Teams-12.png)  
+When the **catch node** is triggered, we decided (in a very arbitrary and lazy way) that the reason for any unpredictable error coming from the <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> would be that the incoming **UUID** was wrong. For this reason we introduced a new **Build Error Msg** Function node to define the payload to be returned in this case to Microsoft Teams.  
+![](../images/fullDocumentation/MS-Teams-13.png)  
+This node, then, ends into the **Error Condition HTTP Response node** that we previously introduced. 
+
+<h2>Conclusion</h2>
+That was simple right ?  
+What we proved in this example was that we could really concentrate on the task of properly responding to an incoming request from Microsoft Teams; the fact that we were interacting with <strong style="color: #FEC70B; background-color: black">DOMINO</strong>  has been very much simplified by the use of two cascading <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> without worrying at all about the complexity of how it was implemented.  
 
 

@@ -17,6 +17,14 @@
 
     },
   
+    
+    
+    {
+      "title": "Slack Basic Integration",
+      "url": "/think2019lab-domino-integration/docs/Slack-basic/"
+
+    },
+  
 
   
     
@@ -66,6 +74,24 @@
     {
       "title": "The Domino 10 AppDev Pack",
       "url": "/think2019lab-domino-integration/docs/appdev-pack-infos/"
+
+    },
+  
+
+  
+    
+    
+    {
+      "title": "Introduction Alpha 2",
+      "url": "/think2019lab-domino-integration/docs/alpha/"
+
+    },
+  
+    
+    
+    {
+      "title": "Introduction Beta 3",
+      "url": "/think2019lab-domino-integration/docs/beta/"
 
     },
   

@@ -2,6 +2,7 @@
   docs:
   - fullDoc-Intro
   - MicrosoftTeams
+  - Slack-basic
 
 - title: Node-RED domino-db article
   docs:
