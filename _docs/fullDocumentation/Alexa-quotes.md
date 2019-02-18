@@ -52,7 +52,7 @@ In case the query fails, a proper **catch node** is used ends the Alexa session.
 
 <h2>Conclusion</h2>
 That was simple right ?  
-What we proved in this example was that we could really concentrate on the task of properly responding to an incoming request from Microsoft Teams; the fact that we were interacting with <strong style="color: #FEC70B; background-color: black">DOMINO</strong>  has been very much simplified by the use of two cascading <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> without worrying at all about the complexity of how it was implemented.  
+What we proved in this example was that we could really concentrate on the task of properly responding to an incoming request from Alexa; the fact that we were interacting with <strong style="color: #FEC70B; background-color: black">DOMINO</strong>  has been very much simplified by the use of two cascading <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> without worrying at all about the complexity of how it was implemented.  
 
 
 
