@@ -16,14 +16,14 @@ It corresponds to the part of the processing which triggers the event for the ta
 - the second part happens <strong style="color: #FEC70B; background-color: black">outside DOMINO</strong> . It corresponds to the implementation of the **action** (the Approve or Reject action) from the target platform (Slack).
 
 The NodeRED flow managing the **second part of the integration** is shown in the picture below.  
-![](../images/fullDocumentation/Slack-basic-01.png)
+![](../images/fullDocumentation/Slack-Basic-01.png)
 
 - In the case of Slack, the URL for the endpoint **from Slack** has been defined directly in the Slack Application (as opposed to Microsoft Teams where it has been defined in the event sent by <strong style="color: #FEC70B; background-color: black">DOMINO</strong> to Teams). This is a difference between the Microsoft Teams and the Slack platforms that, clearly, does not affect the behavior of our NodeRED flow. 
 
 - Then we added a Function Node (**Get Action and UNID**) which is meant to validate that the POST Request is bringing the *Accept* or the *Reject* actions as defined by the LotusScript agent:
-![](../images/fullDocumentation/Slack-basic-02.png)  
+![](../images/fullDocumentation/Slack-Basic-02.png)  
 The Body of the Function Node is very simple and looks very much like the equivalent node from the Microsoft Teams example:
-![](../images/fullDocumentation/Slack-basic-03.png)  
+![](../images/fullDocumentation/Slack-Basic-03.png)  
 The only noticable difference is the use of a different technique to set the `msg.DDB_itemValues` parameter:
     - in the Microsoft Teams example, `msg.DDB_itemValues` was an array of object, where each object was defined with two properties, `name` (the name of the DOMINO field to be modified) and `status`(the value to set for that field)
     - in the Slack example, `msg.DDB_itemValues`is an object where the name of the proprties for the object correspond to the name of the DOMINO field to be modified and the value of such property is the value to be set for such field. <br/> A more compact representation that has been introduced in ***V 1.0.0** of the <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong>
