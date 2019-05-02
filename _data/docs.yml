@@ -3,6 +3,9 @@
   - fullDoc-Intro
   - MicrosoftTeams
   - Slack-basic
+ 
+- title: Alexa Integration
+  docs:
   - Alexa-quotes
 
 - title: Node-RED domino-db article
