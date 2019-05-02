@@ -19,6 +19,11 @@
             </ul>
 
             <ul class="nav navbar-nav">
+                <li {% if page.sectionid=='docs' %} class="active" {% endif %}><a href="{{ "/docs/Alexa-Intro/" | prepend: site.baseurl }}">Alexa Integration</a></li>
+                <!-- <li {% if page.sectionid=='blog' %} class="active" {% endif %}><a href="{{ site.posts.first.url | prepend: site.baseurl }}">Blog</a></li> -->
+            </ul>
+
+            <ul class="nav navbar-nav">
                 <li {% if page.sectionid=='docs' %} class="active" {% endif %}><a href="{{ "/docs/article-Intro/" | prepend: site.baseurl }}">Launch Article</a></li>
                 <!-- <li {% if page.sectionid=='blog' %} class="active" {% endif %}><a href="{{ site.posts.first.url | prepend: site.baseurl }}">Blog</a></li> -->
             </ul>

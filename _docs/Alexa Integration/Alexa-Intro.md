@@ -1,6 +1,6 @@
 ---
 title: Alexa Skill for the Quotes Database
-permalink: /docs/Alexa-quotes/
+permalink: /docs/Alexa-Intro/
 ---
 
 This page describes the integration one of the Amazon ALEXA Skills that has been shown during the **Think 2019 ICS Community Day** in February 2019.  
