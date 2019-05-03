@@ -1,0 +1,1691 @@
+[{
+    "id": "60cf70bc.60035",
+    "type": "tab",
+    "label": "THINK 2019 - ALEXA Quotes Db",
+    "disabled": false,
+    "info": ""
+}, {
+    "id": "2c4ae0d7.80f1a8",
+    "type": "http in",
+    "z": "60cf70bc.60035",
+    "name": "Show_Quotes ALEXA Intent",
+    "url": "/quotes",
+    "method": "post",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 140,
+    "y": 140,
+    "wires": [
+        ["faac868f.e8d518", "c2704a73.66add8"]
+    ]
+}, {
+    "id": "1a0b0f6f.5696b1",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1470,
+    "y": 380,
+    "wires": []
+}, {
+    "id": "faac868f.e8d518",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 270,
+    "y": 100,
+    "wires": []
+}, {
+    "id": "a8571a2e.82dad8",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Wrong Intent",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I am sorry, I am not sure i understood what you asked me. Can you please try again?\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Fallback Intent\",\n      \"text\": \"I am sorry, I am not sure i understood what you asked me. Can you please try again?\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+    "output": "json",
+    "x": 1290,
+    "y": 380,
+    "wires": [
+        ["1a0b0f6f.5696b1", "c332c481.7a013"]
+    ]
+}, {
+    "id": "c332c481.7a013",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1330,
+    "y": 400,
+    "wires": []
+}, {
+    "id": "ca8149f9.b6c928",
+    "type": "switch",
+    "z": "60cf70bc.60035",
+    "name": "Check Intent",
+    "property": "payload.request.intent.name",
+    "propertyType": "msg",
+    "rules": [{
+        "t": "eq",
+        "v": "AMAZON.StopIntent",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "AMAZON.HelpIntent",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "AMAZON.CancelIntent",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "Show_Quotes",
+        "vt": "str"
+    }, {
+        "t": "else"
+    }],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 5,
+    "x": 1050,
+    "y": 120,
+    "wires": [
+        ["70df561f.5572a8"],
+        ["50a1a4cc.b656e4"],
+        ["5c795a5c.dd2924"],
+        ["9ad7a82.d83a558"],
+        ["a8571a2e.82dad8"]
+    ]
+}, {
+    "id": "5d6be8ba.1c9d48",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Elicit CustomerName",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"{{__outString1}}\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Customers with quotes in status {{__outStatus}}\",\n      \"text\": \"{{__outString2}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false,\n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"customerName\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"unid\": {\n              \"name\": \"unid\",\n              {{#payload.request.intent.slots.unid.value}}\n              \"value\" : \"{{payload.request.intent.slots.unid.value}}\",\n              {{/payload.request.intent.slots.unid.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"status\": {\n              \"name\": \"status\",\n              {{#payload.request.intent.slots.status.value}}\n              \"value\" : \"{{payload.request.intent.slots.status.value}}\",\n              {{/payload.request.intent.slots.status.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"whichQuote\": {\n              \"name\": \"whichQuote\",\n              {{#payload.request.intent.slots.whichQuote.value}}\n              \"value\" : \"{{payload.request.intent.slots.whichQuote.value}}\",\n              {{/payload.request.intent.slots.whichQuote.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"quoteAction\": {\n              \"name\": \"quoteAction\",\n              {{#payload.request.intent.slots.quoteAction.value}}\n              \"value\" : \"{{payload.request.intent.slots.quoteAction.value}}\",\n              {{/payload.request.intent.slots.quoteAction.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"customerName\": {\n              \"name\": \"customerName\",\n              {{#payload.request.intent.slots.customerName.value}}\n              \"value\" : \"{{payload.request.intent.slots.customerName.value}}\",\n              {{/payload.request.intent.slots.customerName.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+    "output": "json",
+    "x": 2400,
+    "y": 1720,
+    "wires": [
+        ["578caaa1.0d81ac", "e54e5d82.bc7a28"]
+    ]
+}, {
+    "id": "516676bb.f226f",
+    "type": "D10_getDocuments",
+    "z": "60cf70bc.60035",
+    "application": "5cb96108.9f275",
+    "queryOrId": "query",
+    "query": "",
+    "defaultOptions": true,
+    "maxViewEntries": 0,
+    "maxDocuments": 0,
+    "maxMillisecs": 0,
+    "startValue": 0,
+    "countValue": 0,
+    "displayResults": "Default",
+    "itemNames": "status, customer, accountNum, description, seller, TotalCost, UnitCost, total, id, amazonPin, $UpdatedBy",
+    "onError": "ON_ERROR_CONTINUE",
+    "unids": "",
+    "name": "get Quotes",
+    "x": 1490,
+    "y": 1375,
+    "wires": [
+        ["b617207c.f0f3c"]
+    ]
+}, {
+    "id": "d2414155.3e9ea",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Elicit Status",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Which kind of quotes are you looking for ?\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Need More Infos\",\n      \"text\": \"Which kind of quotes are you looking for ?\\nYou can answer: approved, rejected or pending!\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false,\n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"status\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"unid\": {\n              \"name\": \"unid\",\n              {{#payload.request.intent.slots.unid.value}}\n              \"value\" : \"{{payload.request.intent.slots.unid.value}}\",\n              {{/payload.request.intent.slots.unid.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"status\": {\n              \"name\": \"status\",\n              {{#payload.request.intent.slots.status.value}}\n              \"value\" : \"{{payload.request.intent.slots.status.value}}\",\n              {{/payload.request.intent.slots.status.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"whichQuote\": {\n              \"name\": \"whichQuote\",\n              {{#payload.request.intent.slots.whichQuote.value}}\n              \"value\" : \"{{payload.request.intent.slots.whichQuote.value}}\",\n              {{/payload.request.intent.slots.whichQuote.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"quoteAction\": {\n              \"name\": \"quoteAction\",\n              {{#payload.request.intent.slots.quoteAction.value}}\n              \"value\" : \"{{payload.request.intent.slots.quoteAction.value}}\",\n              {{/payload.request.intent.slots.quoteAction.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"customerName\": {\n              \"name\": \"customerName\",\n              {{#payload.request.intent.slots.customerName.value}}\n              \"value\" : \"{{payload.request.intent.slots.customerName.value}}\",\n              {{/payload.request.intent.slots.customerName.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n }\n}",
+    "output": "json",
+    "x": 1470,
+    "y": 1640,
+    "wires": [
+        ["e32449c2.838308", "a0bdb5da.a991a"]
+    ]
+}, {
+    "id": "b617207c.f0f3c",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Prepare Data",
+    "func": "function ordinal_suffix_of(i) {\n    var j = i % 10,\n        k = i % 100;\n    if (j == 1 && k != 11) {\n        return i + \"st\";\n    }\n    if (j == 2 && k != 12) {\n        return i + \"nd\";\n    }\n    if (j == 3 && k != 13) {\n        return i + \"rd\";\n    }\n    return i + \"th\";\n}\n\nmsg.__outString1 = '';\nmsg.__outString2 = '';\n//\n//  Service Function to prepare the information when we need to elicit the ACTION to be taken once a quote is found\n//\nvar elicitAction = function(number) {\n    var tmpUser = 'UNDEFINED';\n    if (msg.DDB_docs[number]['$UpdatedBy'] && Array.isArray(msg.DDB_docs[number]['$UpdatedBy']) && (msg.DDB_docs[number]['$UpdatedBy'].length > 0)) {\n        tmpUser = msg.DDB_docs[number]['$UpdatedBy'][0];\n        tmpUser = tmpUser.replace(/CN=/g, '');\n        tmpUser = tmpUser.replace(/\\/O=MyOrg/g, '');\n    }\n    //\n    //  Spoken Text\n    //\n    msg.__outString1  = 'I have found the quote for customer ' + msg.DDB_docs[number].customer + ' owned by ' + tmpUser + '.\\n';\n    switch (msg.DDB_docs[number].status) {\n        case 'approved':\n            msg.__outString1 += 'Do you want to Reject or Reset to Pending ?';\n            break;\n        case 'rejected':\n            msg.__outString1 += 'Do you want to Approve or Reset to Pending ?';\n            break;\n        default:\n            msg.__outString1 += 'Do you want to Approve or Reject it ?';\n    }\n    //\n    //  CARD\n    //\n    msg.__outString2 += 'Owner       : ' + tmpUser + '.\\n';\n    msg.__outString2 += 'status      : ' + msg.DDB_docs[number].status + '.\\n';\n    msg.__outString2 += 'AcntNumber  : ' + msg.DDB_docs[number].accountNum + '.\\n';\n    msg.__outString2 += 'Total Cost  : ' + msg.DDB_docs[number].TotalCost + '.\\n';\n    msg.__outString2 += 'Description : ' + msg.DDB_docs[number].description + '.\\n';\n    msg.__outTitle    = 'Details of ' + msg.DDB_docs[number].customer + ' Quote #' + msg.DDB_docs[number].id;\n    //\n    //  Temporary fields to control output to Alexa\n    //\n    msg.payload.request.intent.slots.status.value = msg.DDB_docs[number].status;\n    msg.payload.request.intent.slots.unid.value = msg.DDB_docs[number]['@unid'];\n    msg.payload.request.intent.slots.customerName.value = msg.DDB_docs[number].customer;\n}\nif (msg.DDB_docs && Array.isArray(msg.DDB_docs) && msg.DDB_docs.length > 0) {\n    //\n    //  There are results\n    //\n    msg.__outNumberOfItems = msg.DDB_docs.length;\n    if (msg.DDB_docs.length === 1) {\n        //\n        //  We have found ONLY ONE RESULT. The query may have been on \"status+customer\" or \"status\" or \"customer\"...\n        //  This does not matter that much as we have ONLY ONE CANDIDATE. \n        //  For this candidate we will have to ELICIT the operation (Approve/reject/Pending)\n        //\n        elicitAction(0);\n    } else {\n        //\n        //  There are multiple quotes. \n        //  If the query was done on \"Status + Customer\", we will have to elicit the quoteId...\n        //  If the query was done on \"Status\" only, we will have to elicit the Customer Name...\n        //  If the query was done on \"Customer\" only, we will have to elicit the \"Status\"...\n        //\n        const reducer = function (accumulator, currentValue) {\n            if (accumulator === '') {\n                accumulator += currentValue;\n            } else {\n                accumulator += ', ' + currentValue;\n            }\n            return accumulator;\n        };\n        switch (msg.__outOption) {\n            case 1:\n                //\n                //  \"Status + Customer\" \n                //\n                if (msg.payload.request.intent.slots.whichQuote.value) {\n                    //\n                    //  \"Status + Customer + whichQuote\"  ----> We already know which Quotes, so we need to Elicit the Action\n                    //\n                    elicitAction(msg.payload.request.intent.slots.whichQuote.value - 1);\n                    //\n                    //  We actually selected ONE quote, so we force this output\n                    //\n                    msg.__outNumberOfItems = 1;\n                } else  {\n                    //\n                    //  \"Status + Customer\"  ----> Elicit quote ID by its ordinal number\n                    //\n                    let complementString = '';\n                    switch (msg.payload.request.intent.slots.status.value) {\n                        case 'approved':\n                            complementString = 'reject or reset to pending';\n                            break;\n                        case 'rejected':\n                            complementString = 'approve or reset to pending';\n                            break;\n                        case 'pending':\n                            complementString = 'approve or reject';\n                            break;\n                        default:\n                            complementString = 'approve, reject or reset to pending';\n                            break;\n                    }\n                    //\n                    //  Spoken Text + Card\n                    //\n                    msg.__outString1  = 'I have found ' + msg.DDB_docs.length + ' '  + msg.payload.request.intent.slots.status.value + ' quotes for customer ' + msg.payload.request.intent.slots.customerName.value + '.\\n';\n                    msg.__outString2  = 'I have found ' + msg.DDB_docs.length + ' '  + msg.payload.request.intent.slots.status.value + ' quotes for customer ' + msg.payload.request.intent.slots.customerName.value + '.\\n';\n                    for (let i=0; i < msg.DDB_docs.length; i++) {\n                        msg.__outString1 += ordinal_suffix_of(i + 1) + ': Quote ID ' + msg.DDB_docs[i].id + ' for ' + msg.DDB_docs[i].TotalCost + '.\\n';\n                        msg.__outString2 += ordinal_suffix_of(i + 1) + ': Quote ID ' + msg.DDB_docs[i].id + ' for ' + msg.DDB_docs[i].TotalCost + '.\\n';\n                    }\n                    msg.__outString1 += 'Which one do you want to ' + complementString;\n                }\n                break;\n            case 2:\n                //\n                //  \"Status\" Only ---> Elicit Customer Name\n                //\n                let customerList = [];\n                for (let i = 0; i < msg.DDB_docs.length; i++) {\n                    if (!customerList.includes(msg.DDB_docs[i].customer.toUpperCase())) {\n                        customerList.push(msg.DDB_docs[i].customer.toUpperCase());\n                    }\n                }\n                //\n                //  Spoken Text\n                //\n                msg.__outString1  = 'I have found ' + customerList.length + ' customers with ' + msg.payload.request.intent.slots.status.value + ' Quotes.\\n';\n                msg.__outString1 += 'Customers are : ' + customerList.reduce(reducer, '') + '.\\n';\n                msg.__outString1 += 'Which customer are you looking for ?';\n                //\n                //  CARD\n                //\n                msg.__outString2  = 'I have found ' + customerList.length + ' customers with ' + msg.payload.request.intent.slots.status.value + ' Quotes.\\n';\n                msg.__outString2 += 'Customers are : ' + customerList.reduce(reducer, '') + '.\\n';\n                //\n                //  Temporary fields to control output to Alexa\n                //\n                break;\n            case 3:\n                //\n                //  \"Customer Only\"  --> Elicit Status\n                //\n                let statusList = [];\n                for (let i = 0; i < msg.DDB_docs.length; i++) {\n                    if (statusList[msg.DDB_docs[i].status] !== undefined) {\n                        statusList[msg.DDB_docs[i].status] += 1;\n                    } else {\n                        statusList[msg.DDB_docs[i].status] = 1;\n                    }\n                }\n                //\n                //  Spoken Text\n                //\n                msg.__outString1  = 'I have found multiple quotes for customer ' + msg.payload.request.intent.slots.customerName.value + '.\\n';\n                for (let property1 in statusList) {\n                    msg.__outString1 += statusList[property1] + ' quotes with status ' + property1 + \".\\n\";\n                }\n                msg.__outString1 += 'Which ones do you choose ?';\n                //\n                //  CARD\n                //\n                msg.__outString2  = 'I have found multiple quotes for customer ' + msg.payload.request.intent.slots.customerName.value + '.\\n';\n                for (let property1 in statusList) {\n                    msg.__outString2 += statusList[property1] + ' quotes with status ' + property1 + \".\\n\";\n                }\n                //\n                //  Temporary fields to control output to Alexa\n                //\n                break;\n        }\n    }\n} else {\n    //\n    //  No results from the query\n    //\n    msg.__outNumberOfItems = 0;\n    switch (msg.__outOption) {\n        case 1:\n            //\n            //  Status + Customer\n            //\n            msg.__outString1 = 'I did not find any '  + msg.payload.request.intent.slots.status.value + ' Quote for customer ' + msg.payload.request.intent.slots.customerName.value;\n            msg.__outString1 += '\\nWhich customer are you looking for ?';\n            msg.__outString2 = 'I did not find any '  + msg.payload.request.intent.slots.status.value + ' Quote for customer ' + msg.payload.request.intent.slots.customerName.value;\n            msg.__outString2 += '\\nGetting new Customer...';\n            msg.__outSlotToElicit = 'customerName';\n            break;\n        case 2:\n            //\n            //  Status ONLY\n            //\n            msg.__outString1 = 'I did not find any ' + msg.payload.request.intent.slots.status.value + ' Quote.';\n            msg.__outString1 += '\\nWhich kind of quotes are you looking for ?';\n            msg.__outString2 = 'I did not find any ' + msg.payload.request.intent.slots.status.value + ' Quote.';\n            msg.__outSlotToElicit = 'status';\n            break;\n        case 3:\n            //\n            //  Customer ONLY\n            //\n            msg.__outString1 = 'I did not find any Quote for customer ' + msg.payload.request.intent.slots.customerName.value + '.';\n            msg.__outString1 += '\\nWhich customer are you looking for ?';\n            msg.__outString2 = 'I did not find any Quote for customer ' + msg.payload.request.intent.slots.customerName.value + '.';\n            msg.__outString2 += '\\nGetting new Customer...';\n            msg.__outSlotToElicit = 'customerName';\n            break;\n    }\n}\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1690,
+    "y": 1376,
+    "wires": [
+        ["6dbf70b1.d0e96", "1eed9d3f.1665b3"]
+    ]
+}, {
+    "id": "578caaa1.0d81ac",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2430,
+    "y": 1740,
+    "wires": []
+}, {
+    "id": "e32449c2.838308",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1550,
+    "y": 1620,
+    "wires": []
+}, {
+    "id": "adf0c5f8.910cb",
+    "type": "switch",
+    "z": "60cf70bc.60035",
+    "name": "Is an INTENT ?",
+    "property": "payload.request.type",
+    "propertyType": "msg",
+    "rules": [{
+        "t": "eq",
+        "v": "IntentRequest",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "SessionEndedRequest",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "LaunchRequest",
+        "vt": "str"
+    }, {
+        "t": "else"
+    }],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 4,
+    "x": 740,
+    "y": 140,
+    "wires": [
+        ["ca8149f9.b6c928"],
+        ["dc335341.5f53a"],
+        ["2d3f60a8.d0b278"],
+        ["ef1a0a36.5dbac"]
+    ]
+}, {
+    "id": "ef1a0a36.5dbac",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "No Intent Request",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I am responding to a {{payload.request.type}} request.\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Not an Intent Request\",\n      \"text\": \"I am sorry, I am only responding to questions to intent Request, not to {{payload.request.type}} request!\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 170,
+    "y": 400,
+    "wires": [
+        ["ae69da97.3193f8", "fb7ec3a0.1d7e18"]
+    ]
+}, {
+    "id": "ae69da97.3193f8",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 250,
+    "y": 380,
+    "wires": []
+}, {
+    "id": "e54e5d82.bc7a28",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2593,
+    "y": 1720,
+    "wires": []
+}, {
+    "id": "a0bdb5da.a991a",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1670,
+    "y": 1640,
+    "wires": []
+}, {
+    "id": "fb7ec3a0.1d7e18",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 350,
+    "y": 400,
+    "wires": []
+}, {
+    "id": "6dbf70b1.d0e96",
+    "type": "switch",
+    "z": "60cf70bc.60035",
+    "name": "ItemsFound",
+    "property": "__outNumberOfItems",
+    "propertyType": "msg",
+    "rules": [{
+        "t": "eq",
+        "v": "1",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "0",
+        "vt": "str"
+    }, {
+        "t": "else"
+    }],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 3,
+    "x": 1890,
+    "y": 1377,
+    "wires": [
+        ["8a4e3b1.ab9a0c8"],
+        ["c25ae3cd.fdc058"],
+        ["a3785f7b.7b3c8"]
+    ],
+    "outputLabels": ["1", "0", "> 1"]
+}, {
+    "id": "8a4e3b1.ab9a0c8",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Elicit QuoteAction",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"{{__outString1}}\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"{{__outTitle}}\",\n      \"text\": \"{{__outString2}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false,\n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"quoteAction\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"unid\": {\n              \"name\": \"unid\",\n              {{#payload.request.intent.slots.unid.value}}\n              \"value\" : \"{{payload.request.intent.slots.unid.value}}\",\n              {{/payload.request.intent.slots.unid.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"status\": {\n              \"name\": \"status\",\n              {{#payload.request.intent.slots.status.value}}\n              \"value\" : \"{{payload.request.intent.slots.status.value}}\",\n              {{/payload.request.intent.slots.status.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"whichQuote\": {\n              \"name\": \"whichQuote\",\n              {{#payload.request.intent.slots.whichQuote.value}}\n              \"value\" : \"{{payload.request.intent.slots.whichQuote.value}}\",\n              {{/payload.request.intent.slots.whichQuote.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"quoteAction\": {\n              \"name\": \"quoteAction\",\n              {{#payload.request.intent.slots.quoteAction.value}}\n              \"value\" : \"{{payload.request.intent.slots.quoteAction.value}}\",\n              {{/payload.request.intent.slots.quoteAction.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"customerName\": {\n              \"name\": \"customerName\",\n              {{#payload.request.intent.slots.customerName.value}}\n              \"value\" : \"{{payload.request.intent.slots.customerName.value}}\",\n              {{/payload.request.intent.slots.customerName.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+    "output": "json",
+    "x": 2390,
+    "y": 1366,
+    "wires": [
+        ["7c8f084b.a3482", "12e0218c.a309ce"]
+    ]
+}, {
+    "id": "7c8f084b.a3482",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2450,
+    "y": 1386,
+    "wires": []
+}, {
+    "id": "12e0218c.a309ce",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2610,
+    "y": 1366,
+    "wires": []
+}, {
+    "id": "c25ae3cd.fdc058",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Nothing found",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"{{__outString1}}\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"No Results found\",\n      \"text\": \"{{__outString2}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    {{#__outSlotToElicit}}\n    \"shouldEndSession\": false,\n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"{{__outSlotToElicit}}\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"unid\": {\n              \"name\": \"unid\",\n              {{#payload.request.intent.slots.unid.value}}\n              \"value\" : \"{{payload.request.intent.slots.unid.value}}\",\n              {{/payload.request.intent.slots.unid.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"status\": {\n              \"name\": \"status\",\n              {{#payload.request.intent.slots.status.value}}\n              \"value\" : \"{{payload.request.intent.slots.status.value}}\",\n              {{/payload.request.intent.slots.status.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"whichQuote\": {\n              \"name\": \"whichQuote\",\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"quoteAction\": {\n              \"name\": \"quoteAction\",\n              {{#payload.request.intent.slots.quoteAction.value}}\n              \"value\" : \"{{payload.request.intent.slots.quoteAction.value}}\",\n              {{/payload.request.intent.slots.quoteAction.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"customerName\": {\n              \"name\": \"customerName\",\n              {{#payload.request.intent.slots.customerName.value}}\n              \"value\" : \"{{payload.request.intent.slots.customerName.value}}\",\n              {{/payload.request.intent.slots.customerName.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n    {{/__outSlotToElicit}}\n }\n}",
+    "output": "json",
+    "x": 2380,
+    "y": 1500,
+    "wires": [
+        ["9ce311a2.6cc438", "2715a9d.b5e92d6"]
+    ]
+}, {
+    "id": "9ce311a2.6cc438",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2470,
+    "y": 1520,
+    "wires": []
+}, {
+    "id": "2715a9d.b5e92d6",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2610,
+    "y": 1500,
+    "wires": []
+}, {
+    "id": "aac82ddd.fafba8",
+    "type": "switch",
+    "z": "60cf70bc.60035",
+    "name": "UNID present?",
+    "property": "payload.request.intent.slots.unid.value",
+    "propertyType": "msg",
+    "rules": [{
+        "t": "nempty"
+    }, {
+        "t": "else"
+    }],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 2,
+    "x": 1060,
+    "y": 1080,
+    "wires": [
+        ["4850279d.6377"],
+        ["ebb43e34.98bdc"]
+    ]
+}, {
+    "id": "68954391.37295c",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Status Update ",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n    \"version\": \"1.0\",\n    \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"I set quote {{DDB_doc.id}} to status {{DDB_doc.status}}.\\nWhat else can I do for you?\"\n        },\n        \"card\": {\n            \"type\": \"Standard\",\n            \"title\": \"TADA DA UHHH\",\n            \"text\": \"I set quote {{DDB_doc.id}} to status {{DDB_doc.status}}\",\n            \"image\": {\n                \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n                \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n            }\n        },\n        \"shouldEndSession\": false \n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\"\n    }\n}",
+    "output": "json",
+    "x": 2380,
+    "y": 900,
+    "wires": [
+        ["bbac63cc.ab3d3", "527b3729.52055"]
+    ]
+}, {
+    "id": "bbac63cc.ab3d3",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2390,
+    "y": 932,
+    "wires": []
+}, {
+    "id": "527b3729.52055",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2550,
+    "y": 900,
+    "wires": []
+}, {
+    "id": "8ce2b008.abf4c8",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "DO NOT KNOW",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Do not know what to do now, sigh !!!\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Oh GOSH !\",\n      \"text\": \"Do not know what to do now, sigh\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 1920,
+    "y": 1074,
+    "wires": [
+        ["cedec3b9.722cb8", "cc41cae0.4105c8"]
+    ]
+}, {
+    "id": "cedec3b9.722cb8",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1970,
+    "y": 1094,
+    "wires": []
+}, {
+    "id": "cc41cae0.4105c8",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2190,
+    "y": 1074,
+    "wires": []
+}, {
+    "id": "ebb43e34.98bdc",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Prepare Query",
+    "func": "if (msg.payload.request.intent.slots.status.value) {\n    if (msg.payload.request.intent.slots.customerName.value) {\n        //\n        //  We have both the STATUS and the CUSTOMERNAME\n        //\n        msg.DDB_query = \"status = \\'\" + msg.payload.request.intent.slots.status.value + \"\\' AND customer = \\'\" + msg.payload.request.intent.slots.customerName.value.trim() + \"\\' AND amazonPin = \" + msg.payload.request.intent.slots.userPIN.value.trim();\n        msg.__outOption = 1;\n        return [msg, null];\n    } else {\n        //\n        //  We only have STATUS\n        //\n        msg.DDB_query = \"status = \\'\" + msg.payload.request.intent.slots.status.value + \"\\' AND amazonPin = \" + msg.payload.request.intent.slots.userPIN.value.trim();\n        msg.__outOption = 2;\n        return [msg, null];\n    }\n} else {\n    if (msg.payload.request.intent.slots.customerName.value) {\n        //\n        //  We only have CUSTOMERNAME\n        //\n        msg.DDB_query = \"customer = \\'\" + msg.payload.request.intent.slots.customerName.value.trim() + \"\\' AND amazonPin = \" + msg.payload.request.intent.slots.userPIN.value.trim();\n        msg.__outOption = 3;\n        return [msg, null];\n    } else {\n        //\n        //  We do not have a query to do\n        //\n        msg.__outOption = 4;\n        return [null, msg];\n    }\n}\n",
+    "outputs": 2,
+    "noerr": 0,
+    "x": 1260,
+    "y": 1380,
+    "wires": [
+        ["516676bb.f226f"],
+        ["d2414155.3e9ea"]
+    ]
+}, {
+    "id": "84c33606.c15568",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Build Update Record",
+    "func": "var prepareUpdate = function(newStatus, newApprovalType) {\n    msg.DDB_unid = msg.payload.request.intent.slots.unid.value;\n    msg.DDB_itemValues = [];\n    //\n    //  Status field\n    //\n    msg.DDB_itemValues[0] = {};\n    msg.DDB_itemValues[0].name = 'status';\n    msg.DDB_itemValues[0].value = newStatus;\n    //\n    //  Reviewer Field\n    //\n    msg.DDB_itemValues[1] = {};\n    msg.DDB_itemValues[1].name = 'Reviewer';\n    msg.DDB_itemValues[1].value = msg.payload.request.intent.slots.userName.value;\n    //\n    //  Comment Field\n    //\n    msg.DDB_itemValues[2] = {};\n    msg.DDB_itemValues[2].name = 'Comments';\n    msg.DDB_itemValues[2].value = 'This Sales Quote has been ' + newStatus + ' by Amazon ALEXA';\n    //\n    //  ApprovaType\n    //\n    msg.DDB_itemValues[3] = {};\n    msg.DDB_itemValues[3].name = 'ApprovalType';\n    msg.DDB_itemValues[3].value = newApprovalType;\n    //\n    //  ActionDate\n    //\n    var t = new Date();\n    msg.DDB_itemValues[4] = {};\n    msg.DDB_itemValues[4].name = 'ActionDate';\n    msg.DDB_itemValues[4].value = {type : 'datetime', data : t.toISOString().substring(0,19)+'Z'};\n    return true;\n}\nvar isOK = false;\nif (msg.payload.request.intent.slots.quoteAction.value) {\n    switch (msg.payload.request.intent.slots.quoteAction.value) {\n        case 'approve':\n            isOK = prepareUpdate('approved', 'Approve');\n            break;\n        case 'reject':\n            isOK = prepareUpdate('rejected', 'Reject');\n            break;\n        case \"reset to pending\":\n            isOK = prepareUpdate('pending', 'Pending');\n            break;\n        default:\n            isOK = false;\n    }\n} else {\n    isOK = false;\n}\nif (isOK) {\n    return [msg, null];\n} else {\n    return [null, msg];\n}\n",
+    "outputs": 2,
+    "noerr": 0,
+    "x": 1596,
+    "y": 1067,
+    "wires": [
+        ["26f76010.a4fd7", "94973fd5.e72a8"],
+        ["8ce2b008.abf4c8"]
+    ]
+}, {
+    "id": "26f76010.a4fd7",
+    "type": "D10_documentMgr",
+    "z": "60cf70bc.60035",
+    "application": "5cb96108.9f275",
+    "documentOp": "replaceItems",
+    "unid": "",
+    "itemNames": "",
+    "itemValues": "",
+    "name": "change Status",
+    "x": 1900,
+    "y": 900,
+    "wires": [
+        ["8858fa14.ae2cb8", "37f8ac8f.1aa10c"]
+    ]
+}, {
+    "id": "8858fa14.ae2cb8",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1970,
+    "y": 872,
+    "wires": []
+}, {
+    "id": "a3785f7b.7b3c8",
+    "type": "switch",
+    "z": "60cf70bc.60035",
+    "name": "Which Answer ?",
+    "property": "__outOption",
+    "propertyType": "msg",
+    "rules": [{
+        "t": "eq",
+        "v": "1",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "2",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "3",
+        "vt": "str"
+    }],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 3,
+    "x": 2140,
+    "y": 1720,
+    "wires": [
+        ["64667bb6.da15c4"],
+        ["5d6be8ba.1c9d48"],
+        ["b4fd8e0.e4a8c7"]
+    ]
+}, {
+    "id": "b4fd8e0.e4a8c7",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Elicit Status",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"{{__outString1}}\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Customer {{__outCustomer}}\",\n      \"text\": \"{{__outString2}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false,\n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"status\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"unid\": {\n              \"name\": \"unid\",\n              {{#payload.request.intent.slots.unid.value}}\n              \"value\" : \"{{payload.request.intent.slots.unid.value}}\",\n              {{/payload.request.intent.slots.unid.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"status\": {\n              \"name\": \"status\",\n              {{#payload.request.intent.slots.status.value}}\n              \"value\" : \"{{payload.request.intent.slots.status.value}}\",\n              {{/payload.request.intent.slots.status.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"whichQuote\": {\n              \"name\": \"whichQuote\",\n              {{#payload.request.intent.slots.whichQuote.value}}\n              \"value\" : \"{{payload.request.intent.slots.whichQuote.value}}\",\n              {{/payload.request.intent.slots.whichQuote.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"quoteAction\": {\n              \"name\": \"quoteAction\",\n              {{#payload.request.intent.slots.quoteAction.value}}\n              \"value\" : \"{{payload.request.intent.slots.quoteAction.value}}\",\n              {{/payload.request.intent.slots.quoteAction.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"customerName\": {\n              \"name\": \"customerName\",\n              {{#payload.request.intent.slots.customerName.value}}\n              \"value\" : \"{{payload.request.intent.slots.customerName.value}}\",\n              {{/payload.request.intent.slots.customerName.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+    "output": "json",
+    "x": 2370,
+    "y": 1820,
+    "wires": [
+        ["25ad1316.42b5a4", "f153785a.e474c"]
+    ]
+}, {
+    "id": "25ad1316.42b5a4",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2430,
+    "y": 1840,
+    "wires": []
+}, {
+    "id": "f153785a.e474c",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2590,
+    "y": 1820,
+    "wires": []
+}, {
+    "id": "60ec55cd.f775fc",
+    "type": "catch",
+    "z": "60cf70bc.60035",
+    "name": "Catch on Get-QUOTES",
+    "scope": ["516676bb.f226f"],
+    "x": 140,
+    "y": 1160,
+    "wires": [
+        ["509c03bb.071bbc", "96c33aa6.be64e"]
+    ]
+}, {
+    "id": "96c33aa6.be64e",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 350,
+    "y": 1100,
+    "wires": []
+}, {
+    "id": "509c03bb.071bbc",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Listing",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"FATAL ERROR IN GETTING QUOTES\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Oh GOSH !\",\n      \"text\": \"FATAL ERROR IN GETTING QUOTES\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 370,
+    "y": 1160,
+    "wires": [
+        ["5f6615e8.9d3ddc", "ff749551.7c3ce8"]
+    ]
+}, {
+    "id": "5f6615e8.9d3ddc",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 450,
+    "y": 1180,
+    "wires": []
+}, {
+    "id": "ff749551.7c3ce8",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 670,
+    "y": 1160,
+    "wires": []
+}, {
+    "id": "94973fd5.e72a8",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1670,
+    "y": 1040,
+    "wires": []
+}, {
+    "id": "1eed9d3f.1665b3",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1730,
+    "y": 1400,
+    "wires": []
+}, {
+    "id": "64667bb6.da15c4",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Elicit whichQuote",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"{{__outString1}}\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Customer {{payload.request.intent.slots.customerName.value}} with status {{payload.request.intent.slots.status.value}}\",\n      \"text\": \"{{__outString2}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false,\n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"whichQuote\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"unid\": {\n              \"name\": \"unid\",\n              {{#payload.request.intent.slots.unid.value}}\n              \"value\" : \"{{payload.request.intent.slots.unid.value}}\",\n              {{/payload.request.intent.slots.unid.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"status\": {\n              \"name\": \"status\",\n              {{#payload.request.intent.slots.status.value}}\n              \"value\" : \"{{payload.request.intent.slots.status.value}}\",\n              {{/payload.request.intent.slots.status.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"whichQuote\": {\n              \"name\": \"whichQuote\",\n              {{#payload.request.intent.slots.whichQuote.value}}\n              \"value\" : \"{{payload.request.intent.slots.whichQuote.value}}\",\n              {{/payload.request.intent.slots.whichQuote.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"quoteAction\": {\n              \"name\": \"quoteAction\",\n              {{#payload.request.intent.slots.quoteAction.value}}\n              \"value\" : \"{{payload.request.intent.slots.quoteAction.value}}\",\n              {{/payload.request.intent.slots.quoteAction.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"customerName\": {\n              \"name\": \"customerName\",\n              {{#payload.request.intent.slots.customerName.value}}\n              \"value\" : \"{{payload.request.intent.slots.customerName.value}}\",\n              {{/payload.request.intent.slots.customerName.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n  }\n}",
+    "output": "json",
+    "x": 2390,
+    "y": 1620,
+    "wires": [
+        ["3f5ac666.39149a", "b732e79a.8c198"]
+    ]
+}, {
+    "id": "3f5ac666.39149a",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2430,
+    "y": 1640,
+    "wires": []
+}, {
+    "id": "b732e79a.8c198",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2590,
+    "y": 1620,
+    "wires": []
+}, {
+    "id": "4c6005ab.966204",
+    "type": "catch",
+    "z": "60cf70bc.60035",
+    "name": "Error on PREPARE-DATA",
+    "scope": ["b617207c.f0f3c"],
+    "x": 150,
+    "y": 1460,
+    "wires": [
+        ["7cfc9986.2cfa68", "dba22981.daf1a8"]
+    ]
+}, {
+    "id": "1053eb4e.b1a335",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1470,
+    "y": 20,
+    "wires": []
+}, {
+    "id": "70df561f.5572a8",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "STOP",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Ok {{msg.payload.request.intent.slots.userName.value}}. Bye for now. I am always here to help you! And remember: Domino Forever !\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Stopping the Conversation\",\n        \"text\": \"Ok {{msg.payload.request.intent.slots.userName.value}}. Bye for now. I am always here to help you! And remember: Domino Forever !\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 1250,
+    "y": 20,
+    "wires": [
+        ["1053eb4e.b1a335", "c741a8b7.7d6bd"]
+    ]
+}, {
+    "id": "c741a8b7.7d6bd",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1310,
+    "y": 40,
+    "wires": []
+}, {
+    "id": "4850279d.6377",
+    "type": "switch",
+    "z": "60cf70bc.60035",
+    "name": "QuoteAction Present ? ",
+    "property": "payload.request.intent.slots.quoteAction.value",
+    "propertyType": "msg",
+    "rules": [{
+        "t": "nempty"
+    }, {
+        "t": "else"
+    }],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 2,
+    "x": 1324,
+    "y": 1074,
+    "wires": [
+        ["84c33606.c15568"],
+        ["950d8914.788568"]
+    ]
+}, {
+    "id": "c54e272e.6e933",
+    "type": "D10_documentMgr",
+    "z": "60cf70bc.60035",
+    "application": "5cb96108.9f275",
+    "documentOp": "read",
+    "unid": "",
+    "itemNames": "status, id, customer, accountNum, description, seller, TotalCost, UnitCost, total, amazonPin, $UpdatedBy",
+    "itemValues": "",
+    "name": "get by Unid",
+    "x": 1830,
+    "y": 1220,
+    "wires": [
+        ["efa87b05.7a2c98"]
+    ]
+}, {
+    "id": "950d8914.788568",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Get UNID",
+    "func": "msg.DDB_unid = msg.payload.request.intent.slots.unid.value;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1660,
+    "y": 1220,
+    "wires": [
+        ["c54e272e.6e933"]
+    ]
+}, {
+    "id": "efa87b05.7a2c98",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Prepare Output",
+    "func": "//\n//  Spoken Text\n//\nmsg.__outString1  = 'I have found the quote for customer ' + msg.DDB_doc.customer + ' owned by ' + msg.DDB_doc.Name + '.\\n';\nswitch (msg.DDB_doc.status) {\n    case 'approved':\n        msg.__outString1 += 'Do you want to Reject or Reset to Pending ?';\n        break;\n    case 'rejected':\n        msg.__outString1 += 'Do you want to Approve or Reset to Pending ?';\n        break;\n    default:\n        msg.__outString1 += 'Do you want to Approve or Reject it ?';\n}\n//\n//  CARD\n//\nmsg.__outString2  = '  Owner                 : ' + msg.DDB_doc.Name + '.\\n';\nmsg.__outString2 += '  status                : ' + msg.DDB_doc.status + '.\\n';\nmsg.__outString2 += '  account Number        : ' + msg.DDB_doc.accountNum + '.\\n';\nmsg.__outString2 += '  Unit Cost             : ' + msg.DDB_doc.UnitCost + '.\\n';\nmsg.__outString2 += '  Total Cost            : ' + msg.DDB_doc.TotalCost + '.\\n';\nmsg.__outString2 += '  Total Number of Items : ' + msg.DDB_doc.total + '.\\n';\nmsg.__outString2 += '  Description           : ' + msg.DDB_doc.description + '.\\n';\nmsg.__outTitle    = 'Details of ' + msg.DDB_doc.customer + ' Quote #' + msg.DDB_doc.id;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 2020,
+    "y": 1220,
+    "wires": [
+        ["8a4e3b1.ab9a0c8"]
+    ]
+}, {
+    "id": "dc335341.5f53a",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "SessionEnded Request",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I hope I helped you managing your Sales Quotes. Have a wonderful day my friend. And, obviously, Domino Forever !\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"This session is ending!\",\n      \"text\": \"I hope I helped you managing your Sales Quotes. Have a wonderful day my friend. And, obviously, Domino Forever \",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 190,
+    "y": 900,
+    "wires": [
+        ["c6917cf7.d3c108", "2282946b.704474"]
+    ]
+}, {
+    "id": "c6917cf7.d3c108",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 210,
+    "y": 880,
+    "wires": []
+}, {
+    "id": "2282946b.704474",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 410,
+    "y": 900,
+    "wires": []
+}, {
+    "id": "b3a41399.49e538",
+    "type": "catch",
+    "z": "60cf70bc.60035",
+    "name": "Catch on A-V",
+    "scope": ["c2704a73.66add8", "9f85e0b0.21eee8", "2c4ae0d7.80f1a8"],
+    "x": 110,
+    "y": 1600,
+    "wires": [
+        ["909fed0e.ac5b1"]
+    ]
+}, {
+    "id": "c7115561.44866",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "ALEXA VERIFIER",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 570,
+    "y": 1540,
+    "wires": []
+}, {
+    "id": "1dd9b608.1685e2",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "400",
+    "headers": {
+        "content-type": "application/json"
+    },
+    "x": 680,
+    "y": 1600,
+    "wires": []
+}, {
+    "id": "c2704a73.66add8",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "A-V",
+    "func": "if (msg.payload.session.application.applicationId === 'amzn1.ask.skill.eccaff7c-8152-4178-96b6-78124661e087') {\n    var alexaVerifier = context.global.alexaVerifier;\n    var cert_url  = msg.req.headers.signaturecertchainurl;\n    var signature = msg.req.headers.signature;\n    var body      = msg.req.body;\n    try {\n        body = JSON.stringify(body);\n        alexaVerifier(cert_url, signature, body, function(er) {\n            if (er) {\n                node.status({fill: \"red\", shape: \"dot\", text: er});\n                node.warn(er);\n                node.error(er, msg);\n            } else {\n                node.send(msg);\n            }\n        });\n    } catch (er) {\n        node.status({fill: \"red\", shape: \"dot\", text: 'failed to parse alexa request body:'});\n        node.error('failed to parse alexa request body:', msg);\n    }\n} else {\n    node.warn('NOT THIS APPLICATION *******************');\n    node.error('NOT THIS APP', msg);\n}\n\n\n",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 410,
+    "y": 140,
+    "wires": [
+        ["7052dc5d.96f91c", "adf0c5f8.910cb"]
+    ]
+}, {
+    "id": "2d3f60a8.d0b278",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Launch Request",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Hello, I am your Sales Quotes Manager. Can you imagine? I work on Domino 10 and I am here to help you. \\n Could you please give me your PIN code ?\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Welcome to your Domino Sales Quotes manager !\",\n      \"text\": \"Hello, I am your Sales Quotes Manager. Can you imagine? I work on Domino 10 and I am here to help you.\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+    "output": "json",
+    "x": 160,
+    "y": 660,
+    "wires": [
+        ["78514d1a.f169cc", "183dddd.47339a2"]
+    ]
+}, {
+    "id": "78514d1a.f169cc",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 210,
+    "y": 640,
+    "wires": []
+}, {
+    "id": "183dddd.47339a2",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 410,
+    "y": 660,
+    "wires": []
+}, {
+    "id": "7cfc9986.2cfa68",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Nothing found",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"{{__outString1}}\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"No Results found\",\n      \"text\": \"{{__outString2}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 360,
+    "y": 1460,
+    "wires": [
+        ["7001e6c4.968d3", "7a1e1c2.ab65364"]
+    ]
+}, {
+    "id": "7001e6c4.968d3",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "Error on PREPARE-DATA",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 470,
+    "y": 1480,
+    "wires": []
+}, {
+    "id": "7a1e1c2.ab65364",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 690,
+    "y": 1460,
+    "wires": []
+}, {
+    "id": "7052dc5d.96f91c",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "out of AV",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 480,
+    "y": 100,
+    "wires": []
+}, {
+    "id": "5b374ce6.64fa64",
+    "type": "catch",
+    "z": "60cf70bc.60035",
+    "name": "Catch on Get-by-UNID",
+    "scope": ["c54e272e.6e933"],
+    "x": 140,
+    "y": 1300,
+    "wires": [
+        ["bd8ca79c.514d98", "6b2f2b2b.40f27c"]
+    ]
+}, {
+    "id": "6b2f2b2b.40f27c",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 350,
+    "y": 1240,
+    "wires": []
+}, {
+    "id": "bd8ca79c.514d98",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Listing",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"FATAL ERROR IN GETTING QUOTES\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Oh GOSH !\",\n      \"text\": \"FATAL ERROR IN GETTING QUOTES\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 370,
+    "y": 1300,
+    "wires": [
+        ["abe9ac48.6e04c", "51c5e931.a97b48"]
+    ]
+}, {
+    "id": "abe9ac48.6e04c",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 450,
+    "y": 1320,
+    "wires": []
+}, {
+    "id": "51c5e931.a97b48",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 670,
+    "y": 1300,
+    "wires": []
+}, {
+    "id": "dba22981.daf1a8",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 340,
+    "y": 1400,
+    "wires": []
+}, {
+    "id": "9a9307d.eba8878",
+    "type": "catch",
+    "z": "60cf70bc.60035",
+    "name": "Catch on Change-Status",
+    "scope": ["26f76010.a4fd7"],
+    "x": 150,
+    "y": 1740,
+    "wires": [
+        ["3ab293f0.75e814", "db869ca8.582c6"]
+    ]
+}, {
+    "id": "3ab293f0.75e814",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 370,
+    "y": 1680,
+    "wires": []
+}, {
+    "id": "db869ca8.582c6",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Listing",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"FATAL ERROR IN UPDATING DATABASE\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Oh GOSH !\",\n      \"text\": \"FATAL ERROR IN UPDATING DATABASE\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 390,
+    "y": 1740,
+    "wires": [
+        ["df5836f2.b8e6b", "af8298d8.6da64"]
+    ]
+}, {
+    "id": "df5836f2.b8e6b",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 430,
+    "y": 1760,
+    "wires": []
+}, {
+    "id": "af8298d8.6da64",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 550,
+    "y": 1740,
+    "wires": []
+}, {
+    "id": "1a24bc32.7e166c",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "Error Handling",
+    "info": "",
+    "x": 290,
+    "y": 1040,
+    "wires": []
+}, {
+    "id": "4a3dd9d3.82e18",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "OTHERWISE",
+    "info": "",
+    "x": 270,
+    "y": 300,
+    "wires": []
+}, {
+    "id": "b181a198.06d8f8",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "LAUNCH REQUEST",
+    "info": "",
+    "x": 290,
+    "y": 580,
+    "wires": []
+}, {
+    "id": "fd219ccc.4cb018",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "SessionEnded REQUEST",
+    "info": "",
+    "x": 310,
+    "y": 820,
+    "wires": []
+}, {
+    "id": "adbbbe66.e13388",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "AMAZON STOP Intent",
+    "info": "",
+    "x": 1580,
+    "y": 60,
+    "wires": []
+}, {
+    "id": "63c21cf5.7eefa4",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "ALL OTHER INTENTS",
+    "info": "",
+    "x": 1660,
+    "y": 380,
+    "wires": []
+}, {
+    "id": "12290474.681c04",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "SHOW_QUOTES INTENT",
+    "info": "",
+    "x": 990,
+    "y": 1120,
+    "wires": []
+}, {
+    "id": "c3d568ab.7ca948",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "STATUS UPDATE",
+    "info": "",
+    "x": 2460,
+    "y": 860,
+    "wires": []
+}, {
+    "id": "b0dc49ef.170c8",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "NOTHING TO DO !!",
+    "info": "",
+    "x": 2190,
+    "y": 1020,
+    "wires": []
+}, {
+    "id": "7aa5f100.a1ad8",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "UNID and ACTION are set",
+    "info": "",
+    "x": 1590,
+    "y": 980,
+    "wires": []
+}, {
+    "id": "f1f54966.b205f8",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "UNID is set, but NO ACTION",
+    "info": "",
+    "x": 1700,
+    "y": 1180,
+    "wires": []
+}, {
+    "id": "a4dc0539.29ccf8",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "We do NOT have information. ASK for STATUS",
+    "info": "",
+    "x": 1620,
+    "y": 1560,
+    "wires": []
+}, {
+    "id": "6e74f64e.95c0c8",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "We did not find anything matching",
+    "info": "",
+    "x": 2420,
+    "y": 1460,
+    "wires": []
+}, {
+    "id": "ec18e19b.20b198",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "ASK User WHICH ACTION",
+    "info": "",
+    "x": 2410,
+    "y": 1320,
+    "wires": []
+}, {
+    "id": "909fed0e.ac5b1",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "func": "//msg.statusCode = 401;\n//msg.headers = {};\n//msg.headers['content-type'] = 'application/json';\n//msg.headers = {'content-type': 'application/json'};\nmsg.payload = {status: 'failure', reason : msg.error.message};\nreturn msg;\n",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 330,
+    "y": 1600,
+    "wires": [
+        ["1dd9b608.1685e2", "c7115561.44866"]
+    ]
+}, {
+    "id": "5d297443.f6f5ac",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1470,
+    "y": 120,
+    "wires": []
+}, {
+    "id": "50a1a4cc.b656e4",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "HELP",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"You can say many sentences... Use the sentence 'Domino forever' to get help!\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"HELP\",\n      \"text\": \"You can say many sentences... Use the sentence 'Domino forever' to get help!\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+    "output": "json",
+    "x": 1250,
+    "y": 120,
+    "wires": [
+        ["5d297443.f6f5ac", "94909e87.038c28"]
+    ]
+}, {
+    "id": "94909e87.038c28",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1310,
+    "y": 140,
+    "wires": []
+}, {
+    "id": "df2b6071.456518",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "AMAZON HELP Intent",
+    "info": "",
+    "x": 1560,
+    "y": 160,
+    "wires": []
+}, {
+    "id": "2016d0be.7fce3",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1470,
+    "y": 240,
+    "wires": []
+}, {
+    "id": "5c795a5c.dd2924",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "CANCEL",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n    \"version\": \"1.0\",\n    \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"What could I do for you ?\"\n        },\n        \"card\": {\n            \"type\": \"Standard\",\n            \"title\": \"CANCEL\",\n            \"text\": \"What could i do for you ?\",\n            \"image\": {\n                \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n                \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n            }\n        },\n        \"shouldEndSession\": false \n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\"\n    }\n}",
+    "output": "json",
+    "x": 1260,
+    "y": 240,
+    "wires": [
+        ["2016d0be.7fce3", "9bd5fedb.19dca8"]
+    ]
+}, {
+    "id": "9bd5fedb.19dca8",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1310,
+    "y": 260,
+    "wires": []
+}, {
+    "id": "f3788001.b44658",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "AMAZON CANCEL Intent",
+    "info": "",
+    "x": 1590,
+    "y": 280,
+    "wires": []
+}, {
+    "id": "aaab6f96.c4c5c",
+    "type": "template",
+    "z": "60cf70bc.60035",
+    "name": "Elicit PIN",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n    \"version\": \"1.0\",\n    \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"{{__outQuestionForPIN}}\"\n        },\n        \"card\": {\n            \"type\": \"Standard\",\n            \"title\": \"Who are you ?\",\n            \"text\": \"{{__outQuestionForPIN}}\",\n            \"image\": {\n                \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n                \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n            }\n        },\n        \"shouldEndSession\": false,    \n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"userPIN\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"unid\": {\n              \"name\": \"unid\",\n              {{#payload.request.intent.slots.unid.value}}\n              \"value\" : \"{{payload.request.intent.slots.unid.value}}\",\n              {{/payload.request.intent.slots.unid.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"status\": {\n              \"name\": \"status\",\n              {{#payload.request.intent.slots.status.value}}\n              \"value\" : \"{{payload.request.intent.slots.status.value}}\",\n              {{/payload.request.intent.slots.status.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"whichQuote\": {\n              \"name\": \"whichQuote\",\n              {{#payload.request.intent.slots.whichQuote.value}}\n              \"value\" : \"{{payload.request.intent.slots.whichQuote.value}}\",\n              {{/payload.request.intent.slots.whichQuote.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"quoteAction\": {\n              \"name\": \"quoteAction\",\n              {{#payload.request.intent.slots.quoteAction.value}}\n              \"value\" : \"{{payload.request.intent.slots.quoteAction.value}}\",\n              {{/payload.request.intent.slots.quoteAction.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"customerName\": {\n              \"name\": \"customerName\",\n              {{#payload.request.intent.slots.customerName.value}}\n              \"value\" : \"{{payload.request.intent.slots.customerName.value}}\",\n              {{/payload.request.intent.slots.customerName.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n    }\n}",
+    "output": "json",
+    "x": 1760,
+    "y": 460,
+    "wires": [
+        ["86a7b7dd.02593", "29558135.2e334e"]
+    ]
+}, {
+    "id": "86a7b7dd.02593",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1810,
+    "y": 505,
+    "wires": []
+}, {
+    "id": "29558135.2e334e",
+    "type": "http response",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1993,
+    "y": 479,
+    "wires": []
+}, {
+    "id": "bef52c45.175cc",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "GET the PIN",
+    "info": "",
+    "x": 2150,
+    "y": 480,
+    "wires": []
+}, {
+    "id": "37f8ac8f.1aa10c",
+    "type": "D10_documentMgr",
+    "z": "60cf70bc.60035",
+    "application": "5cb96108.9f275",
+    "documentOp": "read",
+    "unid": "",
+    "itemNames": "status, customer, accountNum, description, seller, TotalCost, UnitCost, total, id, amazonPin, $UpdatedBy, Comments, ActionDate, ApprovalType, Reviewer",
+    "itemValues": "",
+    "name": "get modified doc",
+    "x": 2150,
+    "y": 900,
+    "wires": [
+        ["68954391.37295c"]
+    ]
+}, {
+    "id": "9ad7a82.d83a558",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Check userPIN",
+    "func": "if (msg.payload.request.intent.slots.userPIN.value) {\n    //\n    //  UserPIN is in SLOT\n    //  Check if it has been validated\n    //\n    if (msg.payload.request.intent.slots.userName.value) {\n        //\n        //  Yes, it has been validated.\n        //  We can continue\n        //\n        return [null, null, msg];\n    } else {\n        //\n        //  We need to get the userName from the Configuration Database\n        //\n        msg.DDB_query = \"amazonPin = \" + msg.payload.request.intent.slots.userPIN.value;\n        return [null, msg, null];\n    }\n} else {\n    if (msg.payload.session.attributes && \n        msg.payload.session.attributes.userPIN) {\n            //\n            //  userPIN is in session attributes.\n            //  We assume that the userName also is in the session attributes\n            //\n            msg.payload.request.intent.slots.userPIN.value  = msg.payload.session.attributes.userPIN;\n            msg.payload.request.intent.slots.userName.value = msg.payload.session.attributes.userName;\n            return [null, null, msg];\n    } else {\n        //\n        //  We need to ask for the elicit the userPIN\n        //\n        msg.__outQuestionForPIN = \"Before doing anything, I need to know who you are. Which is your PIN code please ?\";\n        return [msg, null, null];\n    }\n}\n",
+    "outputs": 3,
+    "noerr": 0,
+    "x": 940,
+    "y": 480,
+    "wires": [
+        ["aaab6f96.c4c5c"],
+        ["978107ba.375ed"],
+        ["aac82ddd.fafba8"]
+    ],
+    "outputLabels": ["Elicit PIN", "Validate PIN", "all is OK"]
+}, {
+    "id": "978107ba.375ed",
+    "type": "D10_getDocuments",
+    "z": "60cf70bc.60035",
+    "application": "b3d50cb5.45512",
+    "queryOrId": "query",
+    "query": "",
+    "defaultOptions": true,
+    "maxViewEntries": 0,
+    "maxDocuments": 0,
+    "maxMillisecs": 0,
+    "startValue": 0,
+    "countValue": 0,
+    "displayResults": "Default",
+    "itemNames": "demouser",
+    "onError": "ON_ERROR_CONTINUE",
+    "unids": "",
+    "name": "Get userName",
+    "x": 1300,
+    "y": 660,
+    "wires": [
+        ["debd6faf.a26c18"]
+    ]
+}, {
+    "id": "debd6faf.a26c18",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Validate PIN",
+    "func": "if (msg.DDB_docs.length > 0) {\n    //\n    //  a user exists !!!\n    //\n    msg.payload.request.intent.slots.userName.value = msg.DDB_docs[0].demouser.replace(/CN=/g, '').replace(/\\/O=MyOrg/g, '');\n    return [null, msg];\n} else {\n    //\n    //  Not validated\n    //\n    msg.__outQuestionForPIN = \"I have not been able to validate you PIN. Could you please give me your PIN code ?\";\n    return [msg, null];\n}\n",
+    "outputs": 2,
+    "noerr": 0,
+    "x": 1530,
+    "y": 660,
+    "wires": [
+        ["aaab6f96.c4c5c"],
+        ["1b5a79a7.0ea33e", "f3bd682c.f11758"]
+    ]
+}, {
+    "id": "2c94621b.be8c36",
+    "type": "catch",
+    "z": "60cf70bc.60035",
+    "name": "Issue on configDB",
+    "scope": ["978107ba.375ed"],
+    "x": 1310,
+    "y": 540,
+    "wires": [
+        ["2914f9c4.8681ae", "92c01108.02b168"]
+    ]
+}, {
+    "id": "2914f9c4.8681ae",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Error in PIN",
+    "func": "msg.__outQuestionForPIN = \"I have not been able to validate you PIN. Could you please give me your PIN code ?\";\nnode.warn('There was an error in the PIN code : ' + msg.payload.request.intent.slots.userPIN.value);\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1530,
+    "y": 540,
+    "wires": [
+        ["aaab6f96.c4c5c"]
+    ]
+}, {
+    "id": "92c01108.02b168",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1390,
+    "y": 520,
+    "wires": []
+}, {
+    "id": "1b5a79a7.0ea33e",
+    "type": "function",
+    "z": "60cf70bc.60035",
+    "name": "Progressive",
+    "func": "var outMsg = {};\noutMsg.url = msg.payload.context.System.apiEndpoint + '/v1/directives';\noutMsg.headers = {};\noutMsg.headers.Authorization = \"Bearer \" + msg.payload.context.System.apiAccessToken;\noutMsg.headers[\"Content-Type\"] = \"application/json\";\noutMsg.payload = {};\noutMsg.payload.header = {};\noutMsg.payload.header.requestId = msg.payload.request.requestId;\noutMsg.payload.directive = {};\noutMsg.payload.directive.type = \"VoicePlayer.Speak\";\noutMsg.payload.directive.speech = \"Welcome \" + msg.payload.request.intent.slots.userName.value;\n\nreturn outMsg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1870,
+    "y": 660,
+    "wires": [
+        ["67cd8b5e.837844", "df4864aa.0a5c2"]
+    ]
+}, {
+    "id": "67cd8b5e.837844",
+    "type": "http request",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "method": "POST",
+    "ret": "txt",
+    "url": "",
+    "tls": "",
+    "x": 2070,
+    "y": 660,
+    "wires": [
+        ["2ea298d6.64b63"]
+    ]
+}, {
+    "id": "2ea298d6.64b63",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2270,
+    "y": 660,
+    "wires": []
+}, {
+    "id": "8c4c9e93.554d58",
+    "type": "catch",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "scope": ["67cd8b5e.837844", "1b5a79a7.0ea33e"],
+    "x": 1870,
+    "y": 760,
+    "wires": [
+        ["df4864aa.0a5c2"]
+    ]
+}, {
+    "id": "df4864aa.0a5c2",
+    "type": "debug",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2060,
+    "y": 760,
+    "wires": []
+}, {
+    "id": "f3bd682c.f11758",
+    "type": "delay",
+    "z": "60cf70bc.60035",
+    "name": "",
+    "pauseType": "delay",
+    "timeout": "2",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "x": 1300,
+    "y": 900,
+    "wires": [
+        ["aac82ddd.fafba8"]
+    ]
+}, {
+    "id": "9193eefd.e070d",
+    "type": "comment",
+    "z": "60cf70bc.60035",
+    "name": "Welcoming User",
+    "info": "",
+    "x": 2420,
+    "y": 620,
+    "wires": []
+}, {
+    "id": "5cb96108.9f275",
+    "type": "dominodb",
+    "z": "",
+    "D10_server": "mydominoserver",
+    "D10_db": "iPad/Quotes.nsf",
+    "D10_port": "17847",
+    "D10_isSecure": false,
+    "D10_rootCert": "",
+    "D10_clientCert": "",
+    "D10_clientKey": "",
+    "displayName": "Production DB"
+}, {
+    "id": "b3d50cb5.45512",
+    "type": "dominodb",
+    "z": "",
+    "D10_server": "mydominoserver",
+    "D10_db": "demo/DemoConfig.nsf",
+    "D10_port": "17847",
+    "D10_isSecure": false,
+    "D10_rootCert": "",
+    "D10_clientCert": "",
+    "D10_clientKey": "",
+    "displayName": "DemoConfig DB"
+}]

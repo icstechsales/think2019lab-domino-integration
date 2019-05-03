@@ -1,0 +1,1581 @@
+[
+    {
+        "id": "71ce1ddc.16a4fc",
+        "type": "tab",
+        "label": "THINK 2019 - ALEXA Domino Servers",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a00953c0.92c1e",
+        "type": "http in",
+        "z": "71ce1ddc.16a4fc",
+        "name": "DominoServers ALEXA Intent",
+        "url": "/serverStatus",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 180,
+        "wires": [
+            [
+                "6e4051e6.91cc18",
+                "11c3fb19.728b5d"
+            ]
+        ]
+    },
+    {
+        "id": "6e4051e6.91cc18",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 290,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ee30bf92.0e0e68",
+        "type": "switch",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Is an INTENT ?",
+        "property": "payload.request.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "IntentRequest",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "SessionEndedRequest",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "LaunchRequest",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 760,
+        "y": 180,
+        "wires": [
+            [
+                "3657ee90.26609a",
+                "9718ebd0.b45c38"
+            ],
+            [
+                "2d0a2c66.8063a4"
+            ],
+            [
+                "643794c5.435e44"
+            ],
+            [
+                "58a77de6.1e40c4"
+            ]
+        ]
+    },
+    {
+        "id": "58a77de6.1e40c4",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "No Intent Request",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I am responding to a {{payload.request.type}} request.\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Not an Intent Request\",\n      \"text\": \"I am sorry, I am only responding to questions to intent Request, not to {{payload.request.type}} request!\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+        "output": "json",
+        "x": 190,
+        "y": 440,
+        "wires": [
+            [
+                "985b72f1.08f08",
+                "728a26cc.98316"
+            ]
+        ]
+    },
+    {
+        "id": "985b72f1.08f08",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 270,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "728a26cc.98316",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 370,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "2d0a2c66.8063a4",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "SessionEnded Request",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I hope I succesfully assisted you. Have a wonderful day my friend. And, obviously, Domino Forever !\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"This session is ending!\",\n      \"text\": \"I hope I succesfully assisted you. Have a wonderful day my friend. And, obviously, Domino Forever \",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+        "output": "json",
+        "x": 210,
+        "y": 940,
+        "wires": [
+            [
+                "444e35dd.f4a0a4",
+                "6a5c339f.ba88c4"
+            ]
+        ]
+    },
+    {
+        "id": "444e35dd.f4a0a4",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 230,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "6a5c339f.ba88c4",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 430,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "11c3fb19.728b5d",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "A-V",
+        "func": "if (msg.payload.session.application.applicationId === 'amzn1.ask.skill.aa0fa70e-bac4-4813-8808-5abc1654ac55') {\n    var alexaVerifier = context.global.alexaVerifier;\n    var cert_url  = msg.req.headers.signaturecertchainurl;\n    var signature = msg.req.headers.signature;\n    var body      = msg.req.body;\n    try {\n        body = JSON.stringify(body);\n        alexaVerifier(cert_url, signature, body, function(er) {\n            if (er) {\n                node.status({fill: \"red\", shape: \"dot\", text: er});\n                node.warn(er);\n                node.error(er, msg);\n            } else {\n                node.send(msg);\n            }\n        });\n    } catch (er) {\n        node.status({fill: \"red\", shape: \"dot\", text: 'failed to parse alexa request body:'});\n        node.error('failed to parse alexa request body:', msg);\n    }\n} else {\n    node.warn('NOT THIS APPLICATION *******************');\n    node.error('NOT THIS APP', msg);\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 430,
+        "y": 180,
+        "wires": [
+            [
+                "3be211b2.f8ba56",
+                "ee30bf92.0e0e68"
+            ]
+        ]
+    },
+    {
+        "id": "643794c5.435e44",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Launch Request",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Hello, I am your virtual System Administrator. Before I can do anything, Please tell me your ID and your Social Security number.. just kidding... just need your ID\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Welcome to your virtual System Administrator !\",\n      \"text\": \"Hello, I am your virtual System Administrator.\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+        "output": "json",
+        "x": 180,
+        "y": 700,
+        "wires": [
+            [
+                "cd477476.538008",
+                "cb7b24c7.90737"
+            ]
+        ]
+    },
+    {
+        "id": "cd477476.538008",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 230,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "cb7b24c7.90737",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 430,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "3be211b2.f8ba56",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "out of AV",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 500,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "98668b67.2bb6d",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "OTHERWISE",
+        "info": "",
+        "x": 290,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "6352d900.c6976",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "LAUNCH REQUEST",
+        "info": "",
+        "x": 310,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "97859309.de8aa8",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "SessionEnded REQUEST",
+        "info": "",
+        "x": 330,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "3657ee90.26609a",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 890,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "67b9b86e.aa86",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1610,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "69af5870.c20dd8",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Wrong Intent",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I am sorry, I am not sure i understood what you asked me. Can you please try again?\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Fallback Intent\",\n      \"text\": \"I am sorry, I am not sure i understood what you asked me. Can you please try again?\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+        "output": "json",
+        "x": 1430,
+        "y": 420,
+        "wires": [
+            [
+                "67b9b86e.aa86",
+                "7afd1306.fe5f54"
+            ]
+        ]
+    },
+    {
+        "id": "7afd1306.fe5f54",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1470,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "9718ebd0.b45c38",
+        "type": "switch",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Check Intent",
+        "property": "payload.request.intent.name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "AMAZON.StopIntent",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "AMAZON.HelpIntent",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "AMAZON.CancelIntent",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "server_status",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 1090,
+        "y": 180,
+        "wires": [
+            [
+                "1dc5343f.4396dc"
+            ],
+            [
+                "b0b047e2.c25f18"
+            ],
+            [
+                "e9ef9d0f.97c6a"
+            ],
+            [
+                "4d462c69.f8916c"
+            ],
+            [
+                "69af5870.c20dd8"
+            ]
+        ]
+    },
+    {
+        "id": "9d76b6c9.e05ca8",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1610,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "1dc5343f.4396dc",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "STOP",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Ok {{msg.payload.request.intent.slots.userName.value}}. Bye for now. I am always here to help you! And remember: Domino Forever !\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Stopping the Conversation\",\n        \"text\": \"Ok {{msg.payload.request.intent.slots.userName.value}}. Bye for now. I am always here to help you! And remember: Domino Forever !\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+        "output": "json",
+        "x": 1390,
+        "y": 60,
+        "wires": [
+            [
+                "9d76b6c9.e05ca8",
+                "1b9b94d5.44bd3b"
+            ]
+        ]
+    },
+    {
+        "id": "1b9b94d5.44bd3b",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1450,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "231895a1.f594ba",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "AMAZON STOP Intent",
+        "info": "",
+        "x": 1720,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "9be268ce.4a656",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "ALL OTHER INTENTS",
+        "info": "",
+        "x": 1800,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "e8b33581.dc83b8",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1610,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "b0b047e2.c25f18",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "HELP",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"You can say many sentences... Use the sentence 'Domino forever' to get help!\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"HELP\",\n      \"text\": \"You can say many sentences... Use the sentence 'Domino forever' to get help!\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+        "output": "json",
+        "x": 1390,
+        "y": 160,
+        "wires": [
+            [
+                "e8b33581.dc83b8",
+                "71c41c89.38a424"
+            ]
+        ]
+    },
+    {
+        "id": "71c41c89.38a424",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1450,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "3814f4ce.72cd04",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "AMAZON HELP Intent",
+        "info": "",
+        "x": 1700,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8aa71ebb.07d158",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1610,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "e9ef9d0f.97c6a",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "CANCEL",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"version\": \"1.0\",\n    \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"What could I do for you ?\"\n        },\n        \"card\": {\n            \"type\": \"Standard\",\n            \"title\": \"CANCEL\",\n            \"text\": \"What could i do for you ?\",\n            \"image\": {\n                \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n                \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n            }\n        },\n        \"shouldEndSession\": false \n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\"\n    }\n}",
+        "output": "json",
+        "x": 1400,
+        "y": 280,
+        "wires": [
+            [
+                "8aa71ebb.07d158",
+                "c0e0382a.9fc51"
+            ]
+        ]
+    },
+    {
+        "id": "c0e0382a.9fc51",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1450,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "5cad72f3.65b544",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "AMAZON CANCEL Intent",
+        "info": "",
+        "x": 1730,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "8a95228f.2616",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Elicit PIN",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n    \"version\": \"1.0\",\n    \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"{{__outQuestionForPIN}}\"\n        },\n        \"card\": {\n            \"type\": \"Standard\",\n            \"title\": \"Who are you ?\",\n            \"text\": \"{{__outQuestionForPIN}}\",\n            \"image\": {\n                \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n                \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n            }\n        },\n        \"shouldEndSession\": false,    \n        \"directives\": [\n          {\n            \"type\": \"Dialog.ElicitSlot\",\n            \"slotToElicit\": \"userPIN\",\n            \"updatedIntent\": {\n              \"name\": \"{{payload.request.intent.name}}\",\n              \"confirmationStatus\": \"NONE\",\n              \"slots\": {\n                \"dominoServers\": {\n                  \"name\": \"dominoServers\",\n                  {{#payload.request.intent.slots.dominoServers.value}}\n                  \"value\" : \"{{payload.request.intent.slots.dominoServers.value}}\",\n                  {{/payload.request.intent.slots.dominoServers.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"userPIN\": {\n                  \"name\": \"userPIN\",\n                  {{#payload.request.intent.slots.userPIN.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n                  {{/payload.request.intent.slots.userPIN.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"userName\": {\n                  \"name\": \"userName\",\n                  {{#payload.request.intent.slots.userName.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n                  {{/payload.request.intent.slots.userName.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"serviceName\": {\n                  \"name\": \"serviceName\",\n                  {{#payload.request.intent.slots.serviceName.value}}\n                  \"value\" : \"{{payload.request.intent.slots.serviceName.value}}\",\n                  {{/payload.request.intent.slots.serviceName.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"score\": {\n                  \"name\": \"score\",\n                  {{#payload.request.intent.slots.score.value}}\n                  \"value\" : \"{{payload.request.intent.slots.score.value}}\",\n                  {{/payload.request.intent.slots.score.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"operationName\": {\n                  \"name\": \"operationName\",\n                  {{#payload.request.intent.slots.operationName.value}}\n                  \"value\" : \"{{payload.request.intent.slots.operationName.value}}\",\n                  {{/payload.request.intent.slots.operationName.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"serverName\": {\n                  \"name\": \"serverName\",\n                  {{#payload.request.intent.slots.serverName.value}}\n                  \"value\" : \"{{payload.request.intent.slots.serverName.value}}\",\n                  {{/payload.request.intent.slots.serverName.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"serverID\": {\n                  \"name\": \"serverID\",\n                  {{#payload.request.intent.slots.serverID.value}}\n                  \"value\" : \"{{payload.request.intent.slots.serverID.value}}\",\n                  {{/payload.request.intent.slots.serverID.value}}\n                  \"confirmationStatus\": \"NONE\"\n                }\n              }\n            }\n          }\n        ]\n    }\n}",
+        "output": "json",
+        "x": 1760,
+        "y": 640,
+        "wires": [
+            [
+                "e16ad52c.d67c7",
+                "d186c4ca.628398"
+            ]
+        ]
+    },
+    {
+        "id": "e16ad52c.d67c7",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1810,
+        "y": 685,
+        "wires": []
+    },
+    {
+        "id": "4d462c69.f8916c",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Check userPIN",
+        "func": "if (msg.payload.request.intent.slots.userPIN.value) {\n    //\n    //  UserPIN is in SLOT\n    //  Check if it has been validated\n    //\n    if (msg.payload.request.intent.slots.userName.value) {\n        //\n        //  Yes, it has been validated.\n        //  We can continue\n        //\n        return [null, null, msg];\n    } else {\n        //\n        //  We need to get the userName from the Configuration Database\n        //\n        msg.DDB_query = \"amazonPin = \" + msg.payload.request.intent.slots.userPIN.value;\n        return [null, msg, null];\n    }\n} else {\n    if (msg.payload.session.attributes && \n        msg.payload.session.attributes.userPIN) {\n            //\n            //  userPIN is in session attributes.\n            //  We assume that the userName also is in the session attributes\n            //\n            msg.payload.request.intent.slots.userPIN.value  = msg.payload.session.attributes.userPIN;\n            msg.payload.request.intent.slots.userName.value = msg.payload.session.attributes.userName;\n            //\n            //  Check if serverName and serverID are in session\n            //\n            if (msg.payload.session.attributes.serverName) msg.payload.request.intent.slots.serverName.value  = msg.payload.session.attributes.serverName;\n            if (msg.payload.session.attributes.serverID) msg.payload.request.intent.slots.serverID.value  = msg.payload.session.attributes.serverID;\n            return [null, null, msg];\n    } else {\n        //\n        //  We need to ask for the elicit the userPIN\n        //\n        msg.__outQuestionForPIN = \"Hello, I am your virtual System Administrator. Before I can do anything, Please tell me your ID and your Social Security number.. just kidding... just need your ID\";\n        return [msg, null, null];\n    }\n}\n",
+        "outputs": 3,
+        "noerr": 0,
+        "x": 940,
+        "y": 660,
+        "wires": [
+            [
+                "8a95228f.2616"
+            ],
+            [
+                "d0112880.bf616"
+            ],
+            [
+                "e6762644.313ef"
+            ]
+        ],
+        "outputLabels": [
+            "Elicit PIN",
+            "Validate PIN",
+            "all is OK"
+        ]
+    },
+    {
+        "id": "d0112880.bf616",
+        "type": "D10_getDocuments",
+        "z": "71ce1ddc.16a4fc",
+        "application": "b3d50cb5.45512",
+        "queryOrId": "query",
+        "query": "",
+        "defaultOptions": true,
+        "maxViewEntries": 0,
+        "maxDocuments": 0,
+        "maxMillisecs": 0,
+        "startValue": 0,
+        "countValue": 0,
+        "displayResults": "Default",
+        "itemNames": "demouser, vacationDays",
+        "onError": "ON_ERROR_CONTINUE",
+        "unids": "",
+        "name": "Get userName",
+        "x": 1300,
+        "y": 840,
+        "wires": [
+            [
+                "763b5286.4df8cc"
+            ]
+        ]
+    },
+    {
+        "id": "763b5286.4df8cc",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Validate PIN",
+        "func": "if (msg.DDB_docs.length > 0) {\n    //\n    //  a user exists !!!\n    //\n    msg.payload.request.intent.slots.userName.value = msg.DDB_docs[0].demouser.replace(/CN=/g, '').replace(/\\/O=MyOrg/g, '');\n    return [null, msg];\n} else {\n    //\n    //  Not validated\n    //\n    msg.__outQuestionForPIN = \"I have not been able to validate you PIN. Could you please give me your PIN code ?\";\n    return [msg, null];\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1530,
+        "y": 840,
+        "wires": [
+            [
+                "8a95228f.2616"
+            ],
+            [
+                "b1806a13.55b398",
+                "624c89b6.d62968"
+            ]
+        ]
+    },
+    {
+        "id": "65a88a96.b6594c",
+        "type": "catch",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Issue on configDB",
+        "scope": [
+            "d0112880.bf616"
+        ],
+        "x": 1310,
+        "y": 720,
+        "wires": [
+            [
+                "adac9d75.7b6c48",
+                "be21251c.7cc0e8"
+            ]
+        ]
+    },
+    {
+        "id": "adac9d75.7b6c48",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Error in PIN",
+        "func": "msg.__outQuestionForPIN = \"I have not been able to validate you PIN. Could you please give me your PIN code ?\";\nnode.warn('There was an error in the PIN code : ' + msg.payload.request.intent.slots.userPIN.value);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1530,
+        "y": 720,
+        "wires": [
+            [
+                "8a95228f.2616"
+            ]
+        ]
+    },
+    {
+        "id": "be21251c.7cc0e8",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1390,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "b1806a13.55b398",
+        "type": "delay",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1280,
+        "y": 960,
+        "wires": [
+            [
+                "b9db71e2.fc23d8",
+                "e6762644.313ef"
+            ]
+        ]
+    },
+    {
+        "id": "b9db71e2.fc23d8",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1470,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "624c89b6.d62968",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Progressive",
+        "func": "var outMsg = {};\noutMsg.url = msg.payload.context.System.apiEndpoint + '/v1/directives';\noutMsg.headers = {};\noutMsg.headers.Authorization = \"Bearer \" + msg.payload.context.System.apiAccessToken;\noutMsg.headers[\"Content-Type\"] = \"application/json\";\noutMsg.payload = {};\noutMsg.payload.header = {};\noutMsg.payload.header.requestId = msg.payload.request.requestId;\noutMsg.payload.directive = {};\noutMsg.payload.directive.type = \"VoicePlayer.Speak\";\noutMsg.payload.directive.speech  = \"Welcome back \" + msg.payload.request.intent.slots.userName.value.split(' ')[0] + \" !\";\n\nreturn outMsg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1910,
+        "y": 860,
+        "wires": [
+            [
+                "2b039ea4.68b322",
+                "78cec9bf.6011f8"
+            ]
+        ]
+    },
+    {
+        "id": "2b039ea4.68b322",
+        "type": "http request",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "url": "",
+        "tls": "",
+        "x": 2150,
+        "y": 860,
+        "wires": [
+            [
+                "e6f220c6.48fa2"
+            ]
+        ]
+    },
+    {
+        "id": "e6f220c6.48fa2",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2350,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "ab87ff27.d1d018",
+        "type": "catch",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "scope": [
+            "2b039ea4.68b322",
+            "624c89b6.d62968"
+        ],
+        "x": 1950,
+        "y": 960,
+        "wires": [
+            [
+                "78cec9bf.6011f8"
+            ]
+        ]
+    },
+    {
+        "id": "78cec9bf.6011f8",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2140,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "7267f696.3a2",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Welcoming User",
+        "info": "",
+        "x": 2500,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "d186c4ca.628398",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1970,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "ee03032.6818c",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "GET the PIN",
+        "info": "",
+        "x": 2130,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "e6762644.313ef",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Check Action",
+        "func": "if (msg.payload.request.intent.slots.serverName.value) {\n    msg.payload.request.intent.slots.serverName.value = msg.payload.request.intent.slots.serverName.value.replace(/\\s/g, \"\");\n    if (msg.payload.request.intent.slots.serverID.value) {\n        //\n        //  the server has been clearly recognized\n        //\n        if (msg.payload.request.intent.slots.operationName.value) {\n            //\n            //  we need to perform the operationName on the serviceName\n            //\n            return [null, null, null, msg, null, null];\n        } else {\n            if (msg.payload.request.intent.slots.score.value) {\n                //\n                //  We need to provide the score for a given serviceName\n                //\n                msg.DDB_query = \"Form = 'DrillDownFormula' and parentId = '\" + msg.payload.request.intent.slots.serverID.value + \"'\";\n                return [null, null, null, null, msg, null];\n            } else {\n                //\n                //  We need to provide information about the Server\n                //\n                msg.DDB_unid = msg.payload.request.intent.slots.serverID.value;\n                return [null, msg, null, null, null, null];\n            }\n        }\n    } else {\n        //\n        //  We do not know if the name of the server is valid\n        //\n        return [msg, null, null, null, null, null];\n    }\n} else {\n    if (msg.payload.request.intent.slots.dominoServers.value) {\n        //\n        //  We retrieve the list of Servers to be preented to the user\n        //\n        return [null, null, msg, null, null, null];\n    } else {\n        //\n        //  Well, actually we do not know what to do.... So we ask the user\n        //\n        return [null, null, null, null, null, msg];\n    }\n}\n",
+        "outputs": 6,
+        "noerr": 0,
+        "x": 1100,
+        "y": 1360,
+        "wires": [
+            [
+                "d7786e3f.3a1aa"
+            ],
+            [
+                "556ea9fc.12c698"
+            ],
+            [
+                "9e6f2c4d.e90598"
+            ],
+            [
+                "a62166fa.565b3"
+            ],
+            [
+                "8baac106.55f998"
+            ],
+            [
+                "d0b229f7.c17c6"
+            ]
+        ],
+        "outputLabels": [
+            "Validate Server Name",
+            "Get info for Server",
+            "Get the list of Servers",
+            "Operation on Service",
+            "Score for service",
+            "Wait for user input"
+        ]
+    },
+    {
+        "id": "a62166fa.565b3",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Confirm Operation on Service",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n    \"version\": \"1.0\",\n    \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"OK. I have submitted the operation. The {{payload.request.intent.slots.serviceName.value}} will {{payload.request.intent.slots.operationName.value}} in less than 5 minutes.\\n What else can I do for you?\"\n        },\n        \"card\": {\n            \"type\": \"Standard\",\n            \"title\": \"Operation Done\",\n            \"text\": \"OK. I have submitted the operation. The {{payload.request.intent.slots.serviceName.value}} will {{payload.request.intent.slots.operationName.value}} in less than 5 minutes.\",\n            \"image\": {\n                \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n                \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n            }\n        },\n        \"shouldEndSession\": false\n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\"\n    }\n}",
+        "output": "json",
+        "x": 1530,
+        "y": 1780,
+        "wires": [
+            [
+                "d97f0702.a123e",
+                "b1e1636d.f7dd3"
+            ]
+        ]
+    },
+    {
+        "id": "d97f0702.a123e",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1550,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "b1e1636d.f7dd3",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1770,
+        "y": 1780,
+        "wires": []
+    },
+    {
+        "id": "8943e796.ae6c78",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Operation on Service",
+        "info": "",
+        "x": 1520,
+        "y": 1720,
+        "wires": []
+    },
+    {
+        "id": "d0b229f7.c17c6",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Delegate Dialog",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"What can I do for you today?\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Need More Infos\",\n          \"text\": \"What can I do for you today?\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false\n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\"\n    }\n}",
+        "output": "json",
+        "x": 1440,
+        "y": 2100,
+        "wires": [
+            [
+                "fc0df349.cde46",
+                "37819145.63753e"
+            ]
+        ]
+    },
+    {
+        "id": "fc0df349.cde46",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1510,
+        "y": 2080,
+        "wires": []
+    },
+    {
+        "id": "37819145.63753e",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1630,
+        "y": 2100,
+        "wires": []
+    },
+    {
+        "id": "d2840663.eacb18",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Wait for nex input",
+        "info": "",
+        "x": 1460,
+        "y": 2040,
+        "wires": []
+    },
+    {
+        "id": "e2bbe27d.fe3c4",
+        "type": "catch",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "scope": [
+            "d7786e3f.3a1aa",
+            "9e6f2c4d.e90598",
+            "ad7f6493.8076b",
+            "556ea9fc.12c698",
+            "8baac106.55f998"
+        ],
+        "x": 1690,
+        "y": 1580,
+        "wires": [
+            [
+                "46ff6b94.43d4e4",
+                "e1cc03d4.70d468"
+            ]
+        ]
+    },
+    {
+        "id": "46ff6b94.43d4e4",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1770,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "9e6f2c4d.e90598",
+        "type": "D10_getDocuments",
+        "z": "71ce1ddc.16a4fc",
+        "application": "349304ef.62d474",
+        "queryOrId": "query",
+        "query": "form = 'DrillDownServer' AND historicalFlag = 0",
+        "defaultOptions": true,
+        "maxViewEntries": 0,
+        "maxDocuments": 0,
+        "maxMillisecs": 0,
+        "startValue": 0,
+        "countValue": 0,
+        "displayResults": "Default",
+        "itemNames": "Subject, Reason1, HealthAssessmentRatingInt, HealthAssessmentIndex, StatStatusInt",
+        "onError": "ON_ERROR_CONTINUE",
+        "unids": "",
+        "name": "Get List of Servers 2",
+        "x": 1460,
+        "y": 1360,
+        "wires": [
+            [
+                "d4fab8f.36dfc48"
+            ]
+        ]
+    },
+    {
+        "id": "d4fab8f.36dfc48",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Prepare serverList",
+        "func": "function myJoin(list) {\n    var tmpArray = [];\n    for (let i=0; i < list.length; i++) {\n        tmpArray.push(list[i].serverName);\n    }\n    return tmpArray.join(', ');\n}\n//\n//  Reset all slots that are not useful\n//\nif (msg.payload.request.intent.slots.serverID.value) delete(payload.request.intent.slots.serverID.value);\nif (msg.payload.request.intent.slots.serverName.value) delete(payload.request.intent.slots.serverName.value);\nif (msg.payload.request.intent.slots.serviceName.value) delete(payload.request.intent.slots.serviceName.value);\nif (msg.payload.request.intent.slots.operationName.value) delete(payload.request.intent.slots.operationName.value);\nif (msg.payload.request.intent.slots.score.value) delete(payload.request.intent.slots.score.value);\n\n\nvar outString1 = '';\nif (msg.DDB_docs.length > 0) {\n    var criticalServers = [];\n    var warningServers = [];\n    var healthyServers = [];\n    var downServers = [];\n    var unknownServers = [];\n    var runningServers = [];\n    var notRunningServers = [];\n    var serverList = [];\n    var regex = /\\/MyOrg/g;\n\n    for (let i=0; i < msg.DDB_docs.length; i++) {\n        let server = {};\n        server.serverName = msg.DDB_docs[i].Subject.replace(regex, \"\");\n        server.serverId = msg.DDB_docs[i][`@unid`];\n        serverList.push(server);\n        switch (msg.DDB_docs[i].HealthAssessmentRatingInt) {\n            case 1:\n                healthyServers.push(server);\n                runningServers.push(server);\n                break;\n            case 2:\n                warningServers.push(server);\n                runningServers.push(server);\n                break;\n            case 3:\n            case 4:\n            case 5:\n                criticalServers.push(server);\n                runningServers.push(server);\n                break;\n            case 6:\n            case 7:\n                unknownServers.push(server);\n                notRunningServers.push(server);\n                break;\n            case 8:\n                downServers.push(server);\n                notRunningServers.push(server);\n                break;\n            default:\n                unknownServers.push(server);\n                notRunningServers.push(server);\n        }\n    }\n    outString1 = 'I have found ' + msg.DDB_docs.length + ' servers : ' + myJoin(serverList) + '. ';\n    if ((unknownServers.length===0) && (downServers.length === 0) ) {\n        outString1 += 'All these servers are up and running. '\n    } else {\n        outString1 += 'Among them, the following servers: ' + myJoin(notRunningServers) + ' are not running. ';\n    }\n    outString1 += 'Which server would you like to know more about?'\n    msg.__outString1 = outString1;\n    msg.__outSlotToElicit = 'serverName';\n    msg.__outTitle = 'Drilldown server';\n} else {\n    outString1 = 'There must be some problem. I have not found any servers in your organization. Try again or contact your System Administrator !'\n    msg.__outString1 = outString1;\n    msg.__outSlotToElicit = 'dominoServers';\n    msg.__outTitle = 'No Server found';\n}\nreturn msg;\n    ",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1690,
+        "y": 1360,
+        "wires": [
+            [
+                "5e8c172a.9226"
+            ]
+        ]
+    },
+    {
+        "id": "5e8c172a.9226",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "ServerName or Error",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"{{__outString1}}\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"{{__outTitle}}\",\n      \"text\": \"{{__outString1}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    {{#__outSlotToElicit}}\n    \"shouldEndSession\": false,\n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"{{__outSlotToElicit}}\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"dominoServers\": {\n              \"name\": \"dominoServers\",\n              {{#payload.request.intent.slots.dominoServers.value}}\n              \"value\" : \"{{payload.request.intent.slots.dominoServers.value}}\",\n              {{/payload.request.intent.slots.dominoServers.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"serviceName\": {\n              \"name\": \"serviceName\",\n              {{#payload.request.intent.slots.serviceName.value}}\n              \"value\" : \"{{payload.request.intent.slots.serviceName.value}}\",\n              {{/payload.request.intent.slots.serviceName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"score\": {\n              \"name\": \"score\",\n              {{#payload.request.intent.slots.score.value}}\n              \"value\" : \"{{payload.request.intent.slots.score.value}}\",\n              {{/payload.request.intent.slots.score.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"operationName\": {\n              \"name\": \"operationName\",\n              {{#payload.request.intent.slots.operationName.value}}\n              \"value\" : \"{{payload.request.intent.slots.operationName.value}}\",\n              {{/payload.request.intent.slots.operationName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"serverName\": {\n              \"name\": \"serverName\",\n              {{#payload.request.intent.slots.serverName.value}}\n              \"value\" : \"{{payload.request.intent.slots.serverName.value}}\",\n              {{/payload.request.intent.slots.serverName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"serverID\": {\n              \"name\": \"serverID\",\n              {{#payload.request.intent.slots.serverID.value}}\n              \"value\" : \"{{payload.request.intent.slots.serverID.value}}\",\n              {{/payload.request.intent.slots.serverID.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n    {{/__outSlotToElicit}}\n }\n}",
+        "output": "json",
+        "x": 1980,
+        "y": 1360,
+        "wires": [
+            [
+                "12d25e4e.e45152",
+                "556d8b86.327234"
+            ]
+        ]
+    },
+    {
+        "id": "12d25e4e.e45152",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2050,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "556d8b86.327234",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2190,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "ea13e691.3b42d8",
+        "type": "comment",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Asking for serverName or Error",
+        "info": "",
+        "x": 2010,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "d7786e3f.3a1aa",
+        "type": "D10_getDocuments",
+        "z": "71ce1ddc.16a4fc",
+        "application": "349304ef.62d474",
+        "queryOrId": "query",
+        "query": "form = 'DrillDownServer' AND historicalFlag = 0",
+        "defaultOptions": true,
+        "maxViewEntries": 0,
+        "maxDocuments": 0,
+        "maxMillisecs": 0,
+        "startValue": 0,
+        "countValue": 0,
+        "displayResults": "Default",
+        "itemNames": "Subject, Reason1, HealthAssessmentRatingInt, HealthAssessmentIndex, StatStatusInt",
+        "onError": "ON_ERROR_CONTINUE",
+        "unids": "",
+        "name": "Get List of Servers",
+        "x": 1390,
+        "y": 1180,
+        "wires": [
+            [
+                "b24c4117.04b9d"
+            ]
+        ]
+    },
+    {
+        "id": "b24c4117.04b9d",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Check if the server exists and is up",
+        "func": "var outString1 = '';\nif (msg.DDB_docs.length > 0) {\n    var serverList = [];\n    var regex = /\\/MyOrg/g;\n    var found = -1;\n\n    for (let i=0; i < msg.DDB_docs.length; i++) {\n        let tmp = 'Server' + msg.payload.request.intent.slots.serverName.value;\n        if (tmp === msg.DDB_docs[i].Subject.replace(regex, \"\")) {\n            found = i;\n            break;\n        }\n    }\n    if (found >= 0) {\n        //\n        //  the server exists and we know which is its index\n        //\n        if (msg.DDB_docs[found].HealthAssessmentRatingInt >= 6) {\n            //\n            //  The server is NOT running !!!\n            //\n            for (let i=0; i < msg.DDB_docs.length; i++) {\n                serverList.push(msg.DDB_docs[i].Subject.replace(regex, \"\"));\n            }\n            msg.__outString1 = 'Server ' + msg.payload.request.intent.slots.serverName.value + ' is NOT RUNNING ! Please select another server among this list : ' + serverList.join(', ') + '.';\n            msg.__outSlotToElicit = 'dominoServers';\n            msg.__outTitle = 'Server Not Running';\n            delete(msg.payload.request.intent.slots.serverName.value);\n            return [null, msg];\n        } else {\n            //\n            //  Server is running, so we can ask the details\n            //\n            msg.payload.request.intent.slots.serverID.value = msg.DDB_docs[found]['@unid'];\n            //\n            //  Prepare the query\n            //\n            msg.DDB_query = \"Form = 'DrillDownFormula' and parentId = '\" + msg.payload.request.intent.slots.serverID.value + \"'\";\n            return [msg, null];\n        }\n    } else {\n        //\n        //  Not found. We need to elicit the server again\n        //\n        for (let i=0; i < msg.DDB_docs.length; i++) {\n            serverList.push(msg.DDB_docs[i].Subject);\n        }\n        outString1 = 'These are the ' + msg.DDB_docs.length + ' available servers : ' + serverList.join(', ') + '. ';\n        outString1 += 'Which server would you like to know more about?'\n        msg.__outString1 = outString1;\n        msg.__outSlotToElicit = 'serverName';\n        msg.__outTitle = 'Drilldown server';\n        delete(msg.payload.request.intent.slots.serverName.value);\n        return [null, msg];\n    }\n} else {\n    //\n    //  No server exist !!!\n    //\n    outString1 = 'There must be some problem. I have not found any servers in your organization. Try again or contact your System Administrator !'\n    msg.__outString1 = outString1;\n    msg.__outSlotToElicit = 'dominoServers';\n    msg.__outTitle = 'No Server found';\n    delete(msg.payload.request.intent.slots.serverName.value);\n    return [null, msg];\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1680,
+        "y": 1180,
+        "wires": [
+            [
+                "ad7f6493.8076b"
+            ],
+            [
+                "5e8c172a.9226"
+            ]
+        ],
+        "outputLabels": [
+            "server found",
+            "NO Server or Wrong Server"
+        ]
+    },
+    {
+        "id": "ad7f6493.8076b",
+        "type": "D10_getDocuments",
+        "z": "71ce1ddc.16a4fc",
+        "application": "349304ef.62d474",
+        "queryOrId": "query",
+        "query": "",
+        "defaultOptions": true,
+        "maxViewEntries": 0,
+        "maxDocuments": 0,
+        "maxMillisecs": 0,
+        "startValue": 0,
+        "countValue": 0,
+        "displayResults": "Default",
+        "itemNames": "Subject, statStatusInt, statIndex, BlendInt, parentId, Subject, statStatusInt, BlendInt",
+        "onError": "ON_ERROR_CONTINUE",
+        "unids": "",
+        "name": "Get Server Details",
+        "x": 1990,
+        "y": 1180,
+        "wires": [
+            [
+                "2aafc342.e39dc4"
+            ]
+        ]
+    },
+    {
+        "id": "2aafc342.e39dc4",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Prepare Answer",
+        "func": "function myJoin(list) {\n    var tmpArray = [];\n    for (let i=0; i < list.length; i++) {\n        tmpArray.push(list[i].name);\n    }\n    return tmpArray.join(', ');\n}\nvar serviceTable = [];\nserviceTable[1] = \"CPU Utilization\";\nserviceTable[2] = \"Memory Utilization\" ;\nserviceTable[3] = \"Server Response\" ;\nserviceTable[4] = \"Disk Utilization\" ;\nserviceTable[5] = \"Network Utilization\" ;\nserviceTable[6] = \"Mail Delivery Latency\" ;\nserviceTable[7] = \"NRPC Name Lookup\" ;\nserviceTable[8] = \"HTTP Response\" ;\nserviceTable[9] = \"LDAP Response\" ;\nserviceTable[10] = \"IMAP Response\" ;\n\n\n\nvar healthyServices = [];\nvar warningServices = [];\nvar criticalServices = [];\nvar downServices = [];\nvar unknownServices = [];\n\nvar outString1 = '';\n\nfor (let i = 0; i < msg.DDB_docs.length; i++) {\n    switch (msg.DDB_docs[i].statStatusInt) {\n        case 1:\n            healthyServices.push({name : serviceTable[msg.DDB_docs[i].BlendInt], value : msg.DDB_docs[i].statIndex});\n            break;\n        case 2:\n            warningServices.push({name : serviceTable[msg.DDB_docs[i].BlendInt], value : msg.DDB_docs[i].statIndex});\n            break;\n        case 3:\n        case 4:\n        case 5:\n            criticalServices.push({name : serviceTable[msg.DDB_docs[i].BlendInt], value : msg.DDB_docs[i].statIndex});\n            break;\n        case 6:\n        case 7:\n            unknownServices.push({name : serviceTable[msg.DDB_docs[i].BlendInt], value : msg.DDB_docs[i].statIndex});\n            break;\n        case 8:\n            downServices.push({name : serviceTable[msg.DDB_docs[i].BlendInt], value : msg.DDB_docs[i].statIndex});\n            break;\n        default:\n            unknownServices.push({name : serviceTable[msg.DDB_docs[i].BlendInt], value : msg.DDB_docs[i].statIndex});\n            break;\n    }\n}\n\nif (healthyServices.length === msg.DDB_docs.length) {\n    //\n    //  everything is in good shape !!\n    //\n    msg.__outString1 = 'All Services are functioning correctly. There is nothing to do !';\n    msg.__outTitle = 'Server ' + msg.payload.request.intent.slots.serverName.value + ' is OK!';\n    msg.__outSlotToElicit = \"dominoServers\";\n    //\n    //  forget any slot related to the server\n    //\n    delete(msg.payload.request.intent.slots.serverName.value);\n    delete(msg.payload.request.intent.slots.serverID.value);\n    return [msg, null];\n} else {\n    //\n    //  Something is not clear\n    //\n    let aa = false;\n    //outString1 += 'Dear ' + msg.payload.request.intent.slots.userName.value.split(' ')[0] + ': ';\n    if (healthyServices.length > 0) {\n        outString1 += myJoin(healthyServices) + ' are healthy.\\n BUT ';\n    }\n    if (warningServices.length > 0) {\n        outString1 += myJoin(warningServices) + ' are in warning mode ';\n        aa = true;\n    }\n    if (criticalServices.length > 0) {\n        if (aa) {\n            outString1 += 'and ';\n        }\n        outString1 += myJoin(criticalServices) + ' are in a critical state ';\n        aa = true;\n    }\n    if (downServices.length > 0) {\n        if (aa) {\n            outString1 += 'and ';\n        }\n        outString1 += myJoin(downServices) + ' are stopped ';\n        aa = true;\n    }\n    outString1 += '. What do you want to do? ';\n    msg.__outString1 = outString1;\n    msg.__outSlotToElicit = 'operationName';\n    msg.__outTitle = 'Ask for Action'\n    return [null, msg];\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 2270,
+        "y": 1180,
+        "wires": [
+            [
+                "688a6405.22b514"
+            ],
+            [
+                "2acc8968.038fc6"
+            ]
+        ],
+        "outputLabels": [
+            "all services OK",
+            "ask for Service/operation"
+        ]
+    },
+    {
+        "id": "556ea9fc.12c698",
+        "type": "D10_getDocuments",
+        "z": "71ce1ddc.16a4fc",
+        "application": "349304ef.62d474",
+        "queryOrId": "ids",
+        "query": "Form = 'DrillDownFormula' and parentId = '207DD16D95CD9E5888258397004F8A2C'",
+        "defaultOptions": true,
+        "maxViewEntries": 0,
+        "maxDocuments": 0,
+        "maxMillisecs": 0,
+        "startValue": 0,
+        "countValue": 0,
+        "displayResults": "Default",
+        "itemNames": "Subject, statStatusInt, statIndex, BlendInt, parentId, Subject, statStatusInt, BlendInt",
+        "onError": "ON_ERROR_CONTINUE",
+        "unids": "",
+        "name": "Get Server Details 2",
+        "x": 1700,
+        "y": 1260,
+        "wires": [
+            [
+                "2aafc342.e39dc4"
+            ]
+        ]
+    },
+    {
+        "id": "688a6405.22b514",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Ready again for Servers",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"{{__outString1}}\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"{{__outTitle}}\",\n      \"text\": \"{{__outString1}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    {{#__outSlotToElicit}}\n    \"shouldEndSession\": false,\n    \"directives\": [\n      {\n        \"type\": \"Dialog.ElicitSlot\",\n        \"slotToElicit\": \"{{__outSlotToElicit}}\",\n        \"updatedIntent\": {\n          \"name\": \"{{payload.request.intent.name}}\",\n          \"confirmationStatus\": \"NONE\",\n          \"slots\": {\n            \"dominoServers\": {\n              \"name\": \"dominoServers\",\n              {{#payload.request.intent.slots.dominoServers.value}}\n              \"value\" : \"{{payload.request.intent.slots.dominoServers.value}}\",\n              {{/payload.request.intent.slots.dominoServers.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userPIN\": {\n              \"name\": \"userPIN\",\n              {{#payload.request.intent.slots.userPIN.value}}\n              \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n              {{/payload.request.intent.slots.userPIN.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"userName\": {\n              \"name\": \"userName\",\n              {{#payload.request.intent.slots.userName.value}}\n              \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n              {{/payload.request.intent.slots.userName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"serviceName\": {\n              \"name\": \"serviceName\",\n              {{#payload.request.intent.slots.serviceName.value}}\n              \"value\" : \"{{payload.request.intent.slots.serviceName.value}}\",\n              {{/payload.request.intent.slots.serviceName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"score\": {\n              \"name\": \"score\",\n              {{#payload.request.intent.slots.score.value}}\n              \"value\" : \"{{payload.request.intent.slots.score.value}}\",\n              {{/payload.request.intent.slots.score.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"operationName\": {\n              \"name\": \"operationName\",\n              {{#payload.request.intent.slots.operationName.value}}\n              \"value\" : \"{{payload.request.intent.slots.operationName.value}}\",\n              {{/payload.request.intent.slots.operationName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"serverName\": {\n              \"name\": \"serverName\",\n              {{#payload.request.intent.slots.serverName.value}}\n              \"value\" : \"{{payload.request.intent.slots.serverName.value}}\",\n              {{/payload.request.intent.slots.serverName.value}}\n              \"confirmationStatus\": \"NONE\"\n            },\n            \"serverID\": {\n              \"name\": \"serverID\",\n              {{#payload.request.intent.slots.serverID.value}}\n              \"value\" : \"{{payload.request.intent.slots.serverID.value}}\",\n              {{/payload.request.intent.slots.serverID.value}}\n              \"confirmationStatus\": \"NONE\"\n            }\n          }\n        }\n      }\n    ]\n    {{/__outSlotToElicit}}\n }\n}",
+        "output": "json",
+        "x": 2570,
+        "y": 1160,
+        "wires": [
+            [
+                "78fec2c8.1c72f4",
+                "13efe336.17cd35"
+            ]
+        ]
+    },
+    {
+        "id": "78fec2c8.1c72f4",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2630,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "13efe336.17cd35",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2770,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "2acc8968.038fc6",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Ask Operation",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"{{__outString1}}\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"{{__outTitle}}\",\n          \"text\": \"{{__outString1}}\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false\n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\",\n\t    \"serverName\" : \"{{payload.request.intent.slots.serverName.value}}\",\n\t    \"serverID\" : \"{{payload.request.intent.slots.serverID.value}}\"\n    }\n}\n",
+        "output": "json",
+        "x": 2500,
+        "y": 1260,
+        "wires": [
+            [
+                "9c53d489.97253",
+                "5dcd8151.28d36"
+            ]
+        ]
+    },
+    {
+        "id": "9c53d489.97253",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2590,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "5dcd8151.28d36",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2730,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "8199a72f.853668",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2210,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "e1cc03d4.70d468",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Database errors",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Database Error\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"No Results found\",\n      \"text\": \"{{__DDB_fatal}}\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+        "output": "json",
+        "x": 1880,
+        "y": 1580,
+        "wires": [
+            [
+                "9dcac670.73fe38",
+                "8199a72f.853668"
+            ]
+        ]
+    },
+    {
+        "id": "9dcac670.73fe38",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Error on PREPARE-DATA",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 1990,
+        "y": 1600,
+        "wires": []
+    },
+    {
+        "id": "8baac106.55f998",
+        "type": "D10_getDocuments",
+        "z": "71ce1ddc.16a4fc",
+        "application": "349304ef.62d474",
+        "queryOrId": "query",
+        "query": "",
+        "defaultOptions": true,
+        "maxViewEntries": 0,
+        "maxDocuments": 0,
+        "maxMillisecs": 0,
+        "startValue": 0,
+        "countValue": 0,
+        "displayResults": "Default",
+        "itemNames": "Subject, statStatusInt, statIndex, BlendInt, parentId, Subject, statStatusInt, BlendInt",
+        "onError": "ON_ERROR_CONTINUE",
+        "unids": "",
+        "name": "Get Server Details 3",
+        "x": 1500,
+        "y": 1940,
+        "wires": [
+            [
+                "f5102dfd.704818"
+            ]
+        ]
+    },
+    {
+        "id": "f5102dfd.704818",
+        "type": "function",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Prepare Answer",
+        "func": "function myJoin(list) {\n    var tmpArray = [];\n    for (let i=0; i < list.length; i++) {\n        tmpArray.push(list[i].name);\n    }\n    return tmpArray.join(', ');\n}\nvar serviceTable = [];\nserviceTable[1] = \"CPU Utilization\";\nserviceTable[2] = \"Memory Utilization\" ;\nserviceTable[3] = \"Server Response\" ;\nserviceTable[4] = \"Disk Utilization\" ;\nserviceTable[5] = \"Network Utilization\" ;\nserviceTable[6] = \"Mail Delivery Latency\" ;\nserviceTable[7] = \"NRPC Name Lookup\" ;\nserviceTable[8] = \"HTTP Response\" ;\nserviceTable[9] = \"LDAP Response\" ;\nserviceTable[10] = \"IMAP Response\" ;\n\n\nvar outString1 = '';\nvar found = -1;\n\nfor (let i = 0; i < msg.DDB_docs.length; i++) {\n    if (serviceTable[msg.DDB_docs[i].BlendInt].toLowerCase() === msg.payload.request.intent.slots.serviceName.value.toLowerCase()) {\n        found = i;\n        break;\n    }\n}\nif (found >= 0) {\n    outString1 += 'The score for ' + msg.payload.request.intent.slots.serviceName.value + ' is ' + msg.DDB_docs[found].statIndex + '.\\n';\n    let tmpStatus = '';\n    switch (msg.DDB_docs[found].statStatusInt) {\n        case 1:\n            tmpStatus = 'healthy state';\n            break;\n        case 2:\n            tmpStatus = \"warning state\";\n            break;\n        case 3:\n        case 4:\n        case 5:\n            tmpStatus = 'critical status';\n            break;\n        case 6:\n        case 7:\n            tmpStatus = 'unknown state';\n            break;\n        case 8:\n            tmpStatus = 'down and not available';\n            break;\n        default:\n            tmpStatus = 'unknown state';\n            break;\n    }\n    outString1 += 'The service is in ' + tmpStatus + '.\\n';\n    outString1 += 'What can I do for you ?';\n    msg.__outString1 = outString1;\n    delete(msg.payload.request.intent.slots.serviceName.value);\n    delete(msg.payload.request.intent.slots.score.value);\n    return [msg, null];\n} else {\n    //\n    //  Name mismatch\n    //\n    outString1 += 'Sorry, I do not recognize a service called ' + msg.payload.request.intent.slots.serviceName.value + '.\\n What can I do for you ?';\n    msg.__outString1 = outString1;\n    delete(msg.payload.request.intent.slots.serviceName.value);\n    delete(msg.payload.request.intent.slots.score.value);\n    return [null, msg];\n}\n",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1760,
+        "y": 1940,
+        "wires": [
+            [
+                "a899dcb9.803048"
+            ],
+            [
+                "896f08eb.ac43f8"
+            ]
+        ],
+        "outputLabels": [
+            "Score Given",
+            "ServiceName unknown"
+        ]
+    },
+    {
+        "id": "896f08eb.ac43f8",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Delegate Dialog",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"{{__outString1}}\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Service Name not recognized\",\n          \"text\": \"{{_outString1}}\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false\n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\",\n\t    \"serverName\" : \"{{payload.request.intent.slots.serverName.value}}\",\n\t    \"serverID\" : \"{{payload.request.intent.slots.serverID.value}}\"\n    }\n}",
+        "output": "json",
+        "x": 1980,
+        "y": 2060,
+        "wires": [
+            [
+                "60cac3b3.6dbefc",
+                "f56530a3.6580c8"
+            ]
+        ]
+    },
+    {
+        "id": "60cac3b3.6dbefc",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2050,
+        "y": 2040,
+        "wires": []
+    },
+    {
+        "id": "f56530a3.6580c8",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2170,
+        "y": 2060,
+        "wires": []
+    },
+    {
+        "id": "a899dcb9.803048",
+        "type": "template",
+        "z": "71ce1ddc.16a4fc",
+        "name": "Delegate Dialog",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"{{__outString1}}\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Score for service\",\n          \"text\": \"{{__outString1}}\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false\n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\",\n\t    \"serverName\" : \"{{payload.request.intent.slots.serverName.value}}\",\n\t    \"serverID\" : \"{{payload.request.intent.slots.serverID.value}}\"\n    }\n}",
+        "output": "json",
+        "x": 1960,
+        "y": 1900,
+        "wires": [
+            [
+                "266a7ed1.dad17a",
+                "39bb4071.df6c58"
+            ]
+        ]
+    },
+    {
+        "id": "266a7ed1.dad17a",
+        "type": "debug",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "x": 2030,
+        "y": 1880,
+        "wires": []
+    },
+    {
+        "id": "39bb4071.df6c58",
+        "type": "http response",
+        "z": "71ce1ddc.16a4fc",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 2150,
+        "y": 1900,
+        "wires": []
+    },
+    {
+        "id": "b3d50cb5.45512",
+        "type": "dominodb",
+        "z": "",
+        "D10_server": "mydominoserver",
+        "D10_db": "demo/DemoConfig.nsf",
+        "D10_port": "17847",
+        "D10_isSecure": false,
+        "D10_rootCert": "",
+        "D10_clientCert": "",
+        "D10_clientKey": "",
+        "displayName": "DemoConfig DB"
+    },
+    {
+        "id": "349304ef.62d474",
+        "type": "dominodb",
+        "z": "",
+        "D10_server": "mydominoserver",
+        "D10_db": "dommon.nsf",
+        "D10_port": "17847",
+        "D10_isSecure": false,
+        "D10_rootCert": "",
+        "D10_clientCert": "",
+        "D10_clientKey": "",
+        "displayName": "Health Monitor DB"
+    }
+]

@@ -1,0 +1,332 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "sales quotes",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "what can I say",
+                        "Which sentences can I say",
+                        "Domino Forever",
+                        "What can I do "
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "it is ok",
+                        "i am done thank yoi",
+                        "i am done",
+                        "nothing thank you",
+                        "nothing",
+                        "finish",
+                        "exit",
+                        "bye bye",
+                        "bye"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "Show_Quotes",
+                    "slots": [
+                        {
+                            "name": "status",
+                            "type": "QuoteStatus",
+                            "samples": [
+                                "{status} quotes",
+                                "I am looking for {status} quotes",
+                                "read {status} quotes",
+                                "show {status} quotes",
+                                "read me {status} quotes",
+                                "i need {status}",
+                                "i need {status} quotes",
+                                "{status}",
+                                "tell me about {status} quotes"
+                            ]
+                        },
+                        {
+                            "name": "customerName",
+                            "type": "AMAZON.SearchQuery",
+                            "samples": [
+                                "{customerName}",
+                                "for {customerName} customer",
+                                "for {customerName} "
+                            ]
+                        },
+                        {
+                            "name": "unid",
+                            "type": "AMAZON.SearchQuery"
+                        },
+                        {
+                            "name": "quoteAction",
+                            "type": "quoteActionType"
+                        },
+                        {
+                            "name": "whichQuote",
+                            "type": "AMAZON.Ordinal"
+                        },
+                        {
+                            "name": "userPIN",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER",
+                            "samples": [
+                                "it is {userPIN}",
+                                "My id is {userPIN}",
+                                "My PIN is {userPIN}",
+                                "My PIN code is {userPIN}"
+                            ]
+                        },
+                        {
+                            "name": "userName",
+                            "type": "AMAZON.SearchQuery"
+                        }
+                    ],
+                    "samples": [
+                        "my PIN code is {userPIN}",
+                        "about {status} quotes",
+                        "about {customerName}",
+                        "the quotes for {customerName}",
+                        "what do i have to {quoteAction}",
+                        "which are the {status} quotes",
+                        "I am {userPIN}",
+                        "my id is {userPIN}",
+                        "my PIN is {userPIN}",
+                        "what about customer {customerName}",
+                        "give me the quotes for  {customerName}",
+                        "show me the quotes for  {customerName}",
+                        "show me the quotes for customer {customerName}",
+                        "give me the quotes for customer {customerName}",
+                        "what about {unid} quote",
+                        "show me {status} quotes",
+                        "show me the {status} quotes",
+                        "give me {status} quotes",
+                        "which are my {status} quotes",
+                        "what do i need to {quoteAction}",
+                        "what needs to be {status}",
+                        "show me the quotes",
+                        "give me the {status} quotes",
+                        "give my {status} quotes",
+                        "which quotes are {status}",
+                        "read me the quotes"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "QuoteStatus",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "rejected",
+                                "synonyms": [
+                                    "reject"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "approved",
+                                "synonyms": [
+                                    "approve"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "pending"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "YES_NO",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "done"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "no"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yes"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "quoteActionType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "nothing"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "reset to pending"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "reject"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "approve"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "Show_Quotes",
+                    "delegationStrategy": "SKILL_RESPONSE",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "status",
+                            "type": "QuoteStatus",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.142802415926.402818793196"
+                            }
+                        },
+                        {
+                            "name": "customerName",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.769457520175.332153649934"
+                            }
+                        },
+                        {
+                            "name": "unid",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1455154742818.1280680596947"
+                            }
+                        },
+                        {
+                            "name": "quoteAction",
+                            "type": "quoteActionType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1455154742818.441533605357"
+                            }
+                        },
+                        {
+                            "name": "whichQuote",
+                            "type": "AMAZON.Ordinal",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "userPIN",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.835051782850.573520888958"
+                            }
+                        },
+                        {
+                            "name": "userName",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "SKILL_RESPONSE"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.142802415926.402818793196",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Which kind of quotes do you want me to tell ?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.142802415926.402818793196",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Ok. I am going to present you the {status} quotes"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1455154742818.441533605357",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "{quoteAction}"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "{quoteAction} quote {unid}"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1455154742818.1280680596947",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "do you want me to {quoteAction} this quote"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.835051782850.573520888958",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is your PIN code "
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.769457520175.332153649934",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "for which customer?"
+                    }
+                ]
+            }
+        ]
+    }
+}

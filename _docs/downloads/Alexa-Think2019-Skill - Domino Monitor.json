@@ -1,0 +1,296 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "domino servers",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "what can I say ",
+                        "Which sentences can i say",
+                        "Domino Forever",
+                        "what can i do"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "i am done thank you",
+                        "no thank you",
+                        "i am done",
+                        "nothing thank you",
+                        "nothing"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "server_status",
+                    "slots": [
+                        {
+                            "name": "dominoServers",
+                            "type": "dominoServersType"
+                        },
+                        {
+                            "name": "serverName",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "operationName",
+                            "type": "operationType"
+                        },
+                        {
+                            "name": "serviceName",
+                            "type": "serviceType"
+                        },
+                        {
+                            "name": "serverID",
+                            "type": "AMAZON.SearchQuery"
+                        },
+                        {
+                            "name": "userPIN",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER",
+                            "samples": [
+                                "it is {userPIN}",
+                                "my id is {userPIN}",
+                                "my pin code is {userPIN}",
+                                "my pin is {userPIN}"
+                            ]
+                        },
+                        {
+                            "name": "userName",
+                            "type": "AMAZON.SearchQuery"
+                        },
+                        {
+                            "name": "score",
+                            "type": "scoreType"
+                        }
+                    ],
+                    "samples": [
+                        "what abour {serverName}",
+                        "show {serverName}",
+                        "please give me the {score} of {serviceName}",
+                        "can you give me the {score} of {serviceName}",
+                        "give me the {score} for {serviceName}",
+                        "give me the {score} of {serviceName}",
+                        "please give me the {score} for {serviceName}",
+                        "can you give me the {score} for {serviceName}",
+                        "my pin is {userPIN}",
+                        "my pin code is {userPIN}",
+                        "my id is {userPIN}",
+                        "it is {userPIN}",
+                        "please {operationName} {serviceName}",
+                        "show me {serverName}",
+                        "please show me the details on {serverName}",
+                        "how are my {dominoServers} doing ",
+                        "how are my {dominoServers} ",
+                        "tell me the status of my {dominoServers}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "dominoServersType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "servers"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "domino servers"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "operationType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "start"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "stop"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "restart"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "serviceType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Domino Server"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "IMAP Response"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "LDAP Response"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "NRPC Name Lookup"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Mail Delivery Latency"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Network Utilization"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Disk Utilization"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Server Response"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Memory Utilization"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "CPU Utilization"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "HTTP Task"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "scoreType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "value"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "score"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "server_status",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "dominoServers",
+                            "type": "dominoServersType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "serverName",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "operationName",
+                            "type": "operationType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "serviceName",
+                            "type": "serviceType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "serverID",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "userPIN",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1432635853746.199933309363"
+                            }
+                        },
+                        {
+                            "name": "userName",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "score",
+                            "type": "scoreType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "SKILL_RESPONSE"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.1432635853746.199933309363",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is your PIN code "
+                    }
+                ]
+            }
+        ]
+    }
+}

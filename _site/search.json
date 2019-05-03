@@ -25,11 +25,37 @@
 
     },
   
+
+  
     
     
     {
-      "title": "Alexa Skill for the Quotes Database",
-      "url": "/think2019lab-domino-integration/docs/Alexa-quotes/"
+      "title": "Overview",
+      "url": "/think2019lab-domino-integration/docs/Alexa-Intro/"
+
+    },
+  
+    
+    
+    {
+      "title": "The Amazon Alexa QuotesDB skill",
+      "url": "/think2019lab-domino-integration/docs/AlexaQuotesApplication/"
+
+    },
+  
+    
+    
+    {
+      "title": "The Amazon Alexa Vacations skill",
+      "url": "/think2019lab-domino-integration/docs/AlexaVacationsApplication/"
+
+    },
+  
+    
+    
+    {
+      "title": "The Amazon Alexa Domino Monitor skill",
+      "url": "/think2019lab-domino-integration/docs/AlexaMonitorApplication/"
 
     },
   
@@ -82,24 +108,6 @@
     {
       "title": "The Domino 10 AppDev Pack",
       "url": "/think2019lab-domino-integration/docs/appdev-pack-infos/"
-
-    },
-  
-
-  
-    
-    
-    {
-      "title": "Introduction Alpha 2",
-      "url": "/think2019lab-domino-integration/docs/alpha/"
-
-    },
-  
-    
-    
-    {
-      "title": "Introduction Beta 3",
-      "url": "/think2019lab-domino-integration/docs/beta/"
 
     },
   

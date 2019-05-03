@@ -12,11 +12,16 @@ $(function() {
   });
 
   $("#ph-2").click(function() {
-    window.location.href = "/think2019lab-domino-integration/docs/article-Intro/";
+    window.location.href = "/think2019lab-domino-integration/docs/Alexa-Intro/";
     return;
   });
 
   $("#ph-3").click(function() {
+    window.location.href = "/think2019lab-domino-integration/docs/article-Intro/";
+    return;
+  });
+
+  $("#ph-4").click(function() {
     window.location.href = "/think2019lab-domino-integration/docs/info-intro/";
     return;
   });

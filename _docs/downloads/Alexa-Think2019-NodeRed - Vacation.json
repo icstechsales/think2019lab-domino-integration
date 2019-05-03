@@ -1,0 +1,1206 @@
+[{
+    "id": "340af3c9.029eb4",
+    "type": "tab",
+    "label": "THINK 2019 - Alexa Vacation DB",
+    "disabled": false,
+    "info": ""
+}, {
+    "id": "70a67c95.245d0c",
+    "type": "http in",
+    "z": "340af3c9.029eb4",
+    "name": "Vacations ALEXA Intent",
+    "url": "/vacations",
+    "method": "post",
+    "upload": false,
+    "swaggerDoc": "",
+    "x": 160,
+    "y": 160,
+    "wires": [
+        ["c69807aa.f9c7d", "2f33d247.d2f0e6"]
+    ]
+}, {
+    "id": "c69807aa.f9c7d",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 310,
+    "y": 120,
+    "wires": []
+}, {
+    "id": "a0d64e00.1f989",
+    "type": "switch",
+    "z": "340af3c9.029eb4",
+    "name": "Is an INTENT ?",
+    "property": "payload.request.type",
+    "propertyType": "msg",
+    "rules": [{
+        "t": "eq",
+        "v": "IntentRequest",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "SessionEndedRequest",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "LaunchRequest",
+        "vt": "str"
+    }, {
+        "t": "else"
+    }],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 4,
+    "x": 780,
+    "y": 160,
+    "wires": [
+        ["5a690a1c.200494", "72e9e1e3.ec878"],
+        ["598fd29a.a10154"],
+        ["49ab80e1.359c6"],
+        ["eaa5c85d.a4134"]
+    ]
+}, {
+    "id": "eaa5c85d.a4134",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "No Intent Request",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I am responding to a {{payload.request.type}} request.\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Not an Intent Request\",\n      \"text\": \"I am sorry, I am only responding to questions to intent Request, not to {{payload.request.type}} request!\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 210,
+    "y": 420,
+    "wires": [
+        ["49c0adbe.c42c74", "30788342.097a3c"]
+    ]
+}, {
+    "id": "49c0adbe.c42c74",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 290,
+    "y": 400,
+    "wires": []
+}, {
+    "id": "30788342.097a3c",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 390,
+    "y": 420,
+    "wires": []
+}, {
+    "id": "598fd29a.a10154",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "SessionEnded Request",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I hope I succesfully assisted you. Have a wonderful day my friend. And, obviously, Domino Forever !\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"This session is ending!\",\n      \"text\": \"I hope I succesfully assisted you. Have a wonderful day my friend. And, obviously, Domino Forever \",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 230,
+    "y": 920,
+    "wires": [
+        ["c999233c.b2c6e8", "d881ed0c.1169e8"]
+    ]
+}, {
+    "id": "c999233c.b2c6e8",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 250,
+    "y": 900,
+    "wires": []
+}, {
+    "id": "d881ed0c.1169e8",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 450,
+    "y": 920,
+    "wires": []
+}, {
+    "id": "2f33d247.d2f0e6",
+    "type": "function",
+    "z": "340af3c9.029eb4",
+    "name": "A-V",
+    "func": "if (msg.payload.session.application.applicationId === 'amzn1.ask.skill.01f738a9-b021-4643-ba24-6cdc6dc23729') {\n    var alexaVerifier = context.global.alexaVerifier;\n    var cert_url  = msg.req.headers.signaturecertchainurl;\n    var signature = msg.req.headers.signature;\n    var body      = msg.req.body;\n    try {\n        body = JSON.stringify(body);\n        alexaVerifier(cert_url, signature, body, function(er) {\n            if (er) {\n                node.status({fill: \"red\", shape: \"dot\", text: er});\n                node.warn(er);\n                node.error(er, msg);\n            } else {\n                node.send(msg);\n            }\n        });\n    } catch (er) {\n        node.status({fill: \"red\", shape: \"dot\", text: 'failed to parse alexa request body:'});\n        node.error('failed to parse alexa request body:', msg);\n    }\n} else {\n    node.warn('NOT THIS APPLICATION *******************');\n    node.error('NOT THIS APP', msg);\n}\n\n\n",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 450,
+    "y": 160,
+    "wires": [
+        ["b07f7887.1b84a8", "a0d64e00.1f989"]
+    ]
+}, {
+    "id": "49ab80e1.359c6",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Launch Request",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Hello, I am your Human Resources assistant, powered by Domino 10 and I am here to help you!\\n Could you please give me your PIN code ?\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Welcome to your Domino HR Assistant !\",\n      \"text\": \"Hello, I am your Human Resources assistant, powered by Domino 10 and I am here to help you!\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+    "output": "json",
+    "x": 200,
+    "y": 680,
+    "wires": [
+        ["6c0af21b.0bfa7c", "b290b854.68e21"]
+    ]
+}, {
+    "id": "6c0af21b.0bfa7c",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 250,
+    "y": 660,
+    "wires": []
+}, {
+    "id": "b290b854.68e21",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 450,
+    "y": 680,
+    "wires": []
+}, {
+    "id": "b07f7887.1b84a8",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "out of AV",
+    "active": false,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 520,
+    "y": 120,
+    "wires": []
+}, {
+    "id": "2319621c.e943fe",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "OTHERWISE",
+    "info": "",
+    "x": 310,
+    "y": 320,
+    "wires": []
+}, {
+    "id": "74c6c38a.49b3bc",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "LAUNCH REQUEST",
+    "info": "",
+    "x": 330,
+    "y": 600,
+    "wires": []
+}, {
+    "id": "7fec4668.e968e",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "SessionEnded REQUEST",
+    "info": "",
+    "x": 350,
+    "y": 840,
+    "wires": []
+}, {
+    "id": "5a690a1c.200494",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 910,
+    "y": 100,
+    "wires": []
+}, {
+    "id": "10f403f0.9e6004",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1530,
+    "y": 420,
+    "wires": []
+}, {
+    "id": "a8fe344f.7a7bf8",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Wrong Intent",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"I am sorry, I am not sure i understood what you asked me. Can you please try again?\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Fallback Intent\",\n      \"text\": \"I am sorry, I am not sure i understood what you asked me. Can you please try again?\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+    "output": "json",
+    "x": 1350,
+    "y": 420,
+    "wires": [
+        ["10f403f0.9e6004", "8e7ee310.0c215"]
+    ]
+}, {
+    "id": "8e7ee310.0c215",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1390,
+    "y": 440,
+    "wires": []
+}, {
+    "id": "72e9e1e3.ec878",
+    "type": "switch",
+    "z": "340af3c9.029eb4",
+    "name": "Check Intent",
+    "property": "payload.request.intent.name",
+    "propertyType": "msg",
+    "rules": [{
+        "t": "eq",
+        "v": "AMAZON.StopIntent",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "AMAZON.HelpIntent",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "AMAZON.CancelIntent",
+        "vt": "str"
+    }, {
+        "t": "eq",
+        "v": "Plan_Vacation",
+        "vt": "str"
+    }, {
+        "t": "else"
+    }],
+    "checkall": "true",
+    "repair": false,
+    "outputs": 5,
+    "x": 1110,
+    "y": 160,
+    "wires": [
+        ["912e778c.892258"],
+        ["b0ef8251.04a4b"],
+        ["151c89bf.7a1aee"],
+        ["88b19350.a0a"],
+        ["a8fe344f.7a7bf8"]
+    ]
+}, {
+    "id": "59ea0319.3c9334",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1530,
+    "y": 60,
+    "wires": []
+}, {
+    "id": "912e778c.892258",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "STOP",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"Ok {{msg.payload.request.intent.slots.userName.value}}. Bye for now. I am always here to help you! And remember: Domino Forever !\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"Stopping the Conversation\",\n        \"text\": \"Ok {{msg.payload.request.intent.slots.userName.value}}. Bye for now. I am always here to help you! And remember: Domino Forever !\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": true\n }\n}",
+    "output": "json",
+    "x": 1310,
+    "y": 60,
+    "wires": [
+        ["59ea0319.3c9334", "cb21ec9a.94946"]
+    ]
+}, {
+    "id": "cb21ec9a.94946",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1370,
+    "y": 80,
+    "wires": []
+}, {
+    "id": "7232aad7.53658c",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "AMAZON STOP Intent",
+    "info": "",
+    "x": 1640,
+    "y": 100,
+    "wires": []
+}, {
+    "id": "17c78276.dd7046",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "ALL OTHER INTENTS",
+    "info": "",
+    "x": 1720,
+    "y": 420,
+    "wires": []
+}, {
+    "id": "74eb21e3.5ed8d",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1530,
+    "y": 160,
+    "wires": []
+}, {
+    "id": "b0ef8251.04a4b",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "HELP",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n \"version\": \"1.0\",\n \"response\": {\n    \"outputSpeech\": {\n        \"type\": \"PlainText\",\n        \"text\": \"You can say many sentences... Use the sentence 'Domino forever' to get help!\"\n    },\n    \"card\": {\n      \"type\": \"Standard\",\n      \"title\": \"HELP\",\n      \"text\": \"You can say many sentences... Use the sentence 'Domino forever' to get help!\",\n      \"image\": {\n        \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n        \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n      }\n    },\n    \"shouldEndSession\": false\n }\n}",
+    "output": "json",
+    "x": 1310,
+    "y": 160,
+    "wires": [
+        ["74eb21e3.5ed8d", "4d4f8ff4.2a90c8"]
+    ]
+}, {
+    "id": "4d4f8ff4.2a90c8",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1370,
+    "y": 180,
+    "wires": []
+}, {
+    "id": "ffe2cc78.c09398",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "AMAZON HELP Intent",
+    "info": "",
+    "x": 1620,
+    "y": 200,
+    "wires": []
+}, {
+    "id": "e2f18e73.3e3fa",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1530,
+    "y": 280,
+    "wires": []
+}, {
+    "id": "151c89bf.7a1aee",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "CANCEL",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n    \"version\": \"1.0\",\n    \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"What could I do for you ?\"\n        },\n        \"card\": {\n            \"type\": \"Standard\",\n            \"title\": \"CANCEL\",\n            \"text\": \"What could i do for you ?\",\n            \"image\": {\n                \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n                \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n            }\n        },\n        \"shouldEndSession\": false \n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\"\n    }\n}",
+    "output": "json",
+    "x": 1320,
+    "y": 280,
+    "wires": [
+        ["e2f18e73.3e3fa", "5164f08.9407b9"]
+    ]
+}, {
+    "id": "5164f08.9407b9",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1370,
+    "y": 300,
+    "wires": []
+}, {
+    "id": "ce7be337.8dfbf8",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "AMAZON CANCEL Intent",
+    "info": "",
+    "x": 1650,
+    "y": 320,
+    "wires": []
+}, {
+    "id": "f18739fd.0764d",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Elicit PIN",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n    \"version\": \"1.0\",\n    \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"{{__outQuestionForPIN}}\"\n        },\n        \"card\": {\n            \"type\": \"Standard\",\n            \"title\": \"Who are you ?\",\n            \"text\": \"{{__outQuestionForPIN}}\",\n            \"image\": {\n                \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n                \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n            }\n        },\n        \"shouldEndSession\": false,    \n        \"directives\": [\n          {\n            \"type\": \"Dialog.ElicitSlot\",\n            \"slotToElicit\": \"userPIN\",\n            \"updatedIntent\": {\n              \"name\": \"{{payload.request.intent.name}}\",\n              \"confirmationStatus\": \"NONE\",\n              \"slots\": {\n                \"userPIN\": {\n                  \"name\": \"userPIN\",\n                  {{#payload.request.intent.slots.userPIN.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n                  {{/payload.request.intent.slots.userPIN.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"userName\": {\n                  \"name\": \"userName\",\n                  {{#payload.request.intent.slots.userName.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n                  {{/payload.request.intent.slots.userName.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"totalDays\": {\n                  \"name\": \"totalDays\",\n                  {{#payload.request.intent.slots.totalDays.value}}\n                  \"value\" : \"{{payload.request.intent.slots.totalDays.value}}\",\n                  {{/payload.request.intent.slots.totalDays.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"myDays\": {\n                  \"name\": \"myDays\",\n                  {{#payload.request.intent.slots.myDays.value}}\n                  \"value\" : \"{{payload.request.intent.slots.myDays.value}}\",\n                  {{/payload.request.intent.slots.myDays.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"startDate\": {\n                  \"name\": \"startDate\",\n                  {{#payload.request.intent.slots.startDate.value}}\n                  \"value\" : \"{{payload.request.intent.slots.startDate.value}}\",\n                  {{/payload.request.intent.slots.startDate.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"endDate\": {\n                  \"name\": \"endDate\",\n                  {{#payload.request.intent.slots.endDate.value}}\n                  \"value\" : \"{{payload.request.intent.slots.endDate.value}}\",\n                  {{/payload.request.intent.slots.endDate.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"vacationRequest\": {\n                  \"name\": \"vacationRequest\",\n                  {{#payload.request.intent.slots.vacationRequest.value}}\n                  \"value\" : \"{{payload.request.intent.slots.vacationRequest.value}}\",\n                  {{/payload.request.intent.slots.vacationRequest.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"bookRequest\": {\n                  \"name\": \"bookRequest\",\n                  {{#payload.request.intent.slots.bookRequest.value}}\n                  \"value\" : \"{{payload.request.intent.slots.bookRequest.value}}\",\n                  {{/payload.request.intent.slots.bookRequest.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"yesNo\": {\n                  \"name\": \"yesNo\",\n                  {{#payload.request.intent.slots.yesNo.value}}\n                  \"value\" : \"{{payload.request.intent.slots.yesNo.value}}\",\n                  {{/payload.request.intent.slots.yesNo.value}}\n                  \"confirmationStatus\": \"NONE\"\n                }\n              }\n            }\n          }\n        ]\n    }\n}",
+    "output": "json",
+    "x": 1780,
+    "y": 620,
+    "wires": [
+        ["f6d503e0.6911a8", "51d1837.bf9c57c"]
+    ]
+}, {
+    "id": "f6d503e0.6911a8",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1830,
+    "y": 665,
+    "wires": []
+}, {
+    "id": "51d1837.bf9c57c",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2010,
+    "y": 620,
+    "wires": []
+}, {
+    "id": "1ec8c5c1.1caf92",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "GET the PIN",
+    "info": "",
+    "x": 2170,
+    "y": 640,
+    "wires": []
+}, {
+    "id": "88b19350.a0a",
+    "type": "function",
+    "z": "340af3c9.029eb4",
+    "name": "Check userPIN",
+    "func": "if (msg.payload.request.intent.slots.userPIN.value) {\n    //\n    //  UserPIN is in SLOT\n    //  Check if it has been validated\n    //\n    if (msg.payload.request.intent.slots.userName.value) {\n        //\n        //  Yes, it has been validated.\n        //  We can continue\n        //\n        return [null, null, msg];\n    } else {\n        //\n        //  We need to get the userName from the Configuration Database\n        //\n        msg.DDB_query = \"amazonPin = \" + msg.payload.request.intent.slots.userPIN.value;\n        return [null, msg, null];\n    }\n} else {\n    if (msg.payload.session.attributes && \n        msg.payload.session.attributes.userPIN) {\n            //\n            //  userPIN is in session attributes.\n            //  We assume that the userName also is in the session attributes\n            //\n            msg.payload.request.intent.slots.userPIN.value  = msg.payload.session.attributes.userPIN;\n            msg.payload.request.intent.slots.userName.value = msg.payload.session.attributes.userName;\n            msg.payload.request.intent.slots.totalDays.value = msg.payload.session.attributes.totalDays;\n            return [null, null, msg];\n    } else {\n        //\n        //  We need to ask for the elicit the userPIN\n        //\n        msg.__outQuestionForPIN = \"Before doing anything, I need to know who you are. Which is your PIN code please ?\";\n        return [msg, null, null];\n    }\n}\n",
+    "outputs": 3,
+    "noerr": 0,
+    "x": 960,
+    "y": 640,
+    "wires": [
+        ["f18739fd.0764d"],
+        ["897a8cdf.6decb8"],
+        ["9afb36d4.3bf86"]
+    ],
+    "outputLabels": ["Elicit PIN", "Validate PIN", "all is OK"]
+}, {
+    "id": "897a8cdf.6decb8",
+    "type": "D10_getDocuments",
+    "z": "340af3c9.029eb4",
+    "application": "b3d50cb5.45512",
+    "queryOrId": "query",
+    "query": "",
+    "defaultOptions": true,
+    "maxViewEntries": 0,
+    "maxDocuments": 0,
+    "maxMillisecs": 0,
+    "startValue": 0,
+    "countValue": 0,
+    "displayResults": "Default",
+    "itemNames": "demouser, vacationDays",
+    "onError": "ON_ERROR_CONTINUE",
+    "unids": "",
+    "name": "Get userName",
+    "x": 1320,
+    "y": 820,
+    "wires": [
+        ["8f14de4d.3bab"]
+    ]
+}, {
+    "id": "8f14de4d.3bab",
+    "type": "function",
+    "z": "340af3c9.029eb4",
+    "name": "Validate PIN",
+    "func": "if (msg.DDB_docs.length > 0) {\n    //\n    //  a user exists !!!\n    //\n    msg.payload.request.intent.slots.userName.value = msg.DDB_docs[0].demouser.replace(/CN=/g, '').replace(/\\/O=MyOrg/g, '');\n    msg.payload.request.intent.slots.totalDays.value = msg.DDB_docs[0].vacationDays;\n    return [null, msg];\n} else {\n    //\n    //  Not validated\n    //\n    msg.__outQuestionForPIN = \"I have not been able to validate you PIN. Could you please give me your PIN code ?\";\n    return [msg, null];\n}\n",
+    "outputs": 2,
+    "noerr": 0,
+    "x": 1550,
+    "y": 820,
+    "wires": [
+        ["f18739fd.0764d"],
+        ["3fb19c9d.6cb0a4", "69d9d656.f1d8d"]
+    ]
+}, {
+    "id": "5514f4b6.259864",
+    "type": "catch",
+    "z": "340af3c9.029eb4",
+    "name": "Issue on configDB",
+    "scope": ["897a8cdf.6decb8"],
+    "x": 1330,
+    "y": 700,
+    "wires": [
+        ["476d9884.e28308", "c42b8215.c5ee08"]
+    ]
+}, {
+    "id": "476d9884.e28308",
+    "type": "function",
+    "z": "340af3c9.029eb4",
+    "name": "Error in PIN",
+    "func": "msg.__outQuestionForPIN = \"I have not been able to validate you PIN. Could you please give me your PIN code ?\";\nnode.warn('There was an error in the PIN code : ' + msg.payload.request.intent.slots.userPIN.value);\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1550,
+    "y": 700,
+    "wires": [
+        ["f18739fd.0764d"]
+    ]
+}, {
+    "id": "c42b8215.c5ee08",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1410,
+    "y": 680,
+    "wires": []
+}, {
+    "id": "3fb19c9d.6cb0a4",
+    "type": "function",
+    "z": "340af3c9.029eb4",
+    "name": "Progressive",
+    "func": "var outMsg = {};\noutMsg.url = msg.payload.context.System.apiEndpoint + '/v1/directives';\noutMsg.headers = {};\noutMsg.headers.Authorization = \"Bearer \" + msg.payload.context.System.apiAccessToken;\noutMsg.headers[\"Content-Type\"] = \"application/json\";\noutMsg.payload = {};\noutMsg.payload.header = {};\noutMsg.payload.header.requestId = msg.payload.request.requestId;\noutMsg.payload.directive = {};\noutMsg.payload.directive.type = \"VoicePlayer.Speak\";\noutMsg.payload.directive.speech  = \"Welcome \" + msg.payload.request.intent.slots.userName.value + \" !\";\n\nreturn outMsg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1850,
+    "y": 820,
+    "wires": [
+        ["8e451272.69593", "9c327d47.83f88"]
+    ]
+}, {
+    "id": "8e451272.69593",
+    "type": "http request",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "method": "POST",
+    "ret": "txt",
+    "url": "",
+    "tls": "",
+    "x": 2090,
+    "y": 820,
+    "wires": [
+        ["fe4c1c1d.03f1a"]
+    ]
+}, {
+    "id": "fe4c1c1d.03f1a",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2290,
+    "y": 820,
+    "wires": []
+}, {
+    "id": "a99736da.779f3",
+    "type": "catch",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "scope": ["8e451272.69593", "3fb19c9d.6cb0a4"],
+    "x": 1890,
+    "y": 920,
+    "wires": [
+        ["9c327d47.83f88"]
+    ]
+}, {
+    "id": "9c327d47.83f88",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2080,
+    "y": 920,
+    "wires": []
+}, {
+    "id": "9f966d65.84db48",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "Welcoming User",
+    "info": "",
+    "x": 2440,
+    "y": 780,
+    "wires": []
+}, {
+    "id": "9afb36d4.3bf86",
+    "type": "function",
+    "z": "340af3c9.029eb4",
+    "name": "Check Action",
+    "func": "if (msg.payload.request.intent.slots.bookRequest.value) {\n    return [null, msg, null, null];\n} else {\n    if (msg.payload.request.intent.slots.vacationRequest.value) {\n        if (msg.payload.request.intent.slots.vacationRequest.confirmationStatus === \"CONFIRMED\") {\n            delete (msg.payload.request.intent.slots.vacationRequest.value);\n            return [msg, null, null, null];\n        } else {\n            return [null, null, msg, null];\n        }\n    } else {\n        return [null, null, null, msg];\n    }\n}\n",
+    "outputs": 4,
+    "noerr": 0,
+    "x": 1120,
+    "y": 1300,
+    "wires": [
+        ["d5156feb.896ed8"],
+        ["f47b75f2.185d5"],
+        ["9fbd99c8.38491"],
+        ["dc4890cc.2838b8"]
+    ],
+    "outputLabels": ["Yes/no", "Booking Request", "Vacation List", "Do not know"]
+}, {
+    "id": "69d9d656.f1d8d",
+    "type": "delay",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "pauseType": "delay",
+    "timeout": "2",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "nbRateUnits": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "x": 1300,
+    "y": 940,
+    "wires": [
+        ["9afb36d4.3bf86", "6fea95f4.0808dc"]
+    ]
+}, {
+    "id": "9fbd99c8.38491",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Confirm avaliable days",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "handlebars",
+    "syntax": "mustache",
+    "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"You have {{payload.request.intent.slots.totalDays.value}} day of vacation available.\\nWould you like to schedule some vacation ?\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Need More Infos\",\n          \"text\": \"You have {{payload.request.intent.slots.totalDays.value}} day of vacation available.\\nWould you like to schedule some vacation ?\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false,\n        \"directives\": [\n          {\n            \"type\": \"Dialog.ConfirmSlot\",\n            \"slotToConfirm\": \"vacationRequest\",\n            \"updatedIntent\": {\n              \"name\": \"{{payload.request.intent.name}}\",\n              \"confirmationStatus\": \"NONE\",\n              \"slots\": {\n                \"userPIN\": {\n                  \"name\": \"userPIN\",\n                  {{#payload.request.intent.slots.userPIN.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n                  {{/payload.request.intent.slots.userPIN.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"userName\": {\n                  \"name\": \"userName\",\n                  {{#payload.request.intent.slots.userName.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n                  {{/payload.request.intent.slots.userName.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"totalDays\": {\n                  \"name\": \"totalDays\",\n                  {{#payload.request.intent.slots.totalDays.value}}\n                  \"value\" : \"{{payload.request.intent.slots.totalDays.value}}\",\n                  {{/payload.request.intent.slots.totalDays.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"myDays\": {\n                  \"name\": \"myDays\",\n                  {{#payload.request.intent.slots.myDays.value}}\n                  \"value\" : \"{{payload.request.intent.slots.myDays.value}}\",\n                  {{/payload.request.intent.slots.myDays.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"startDate\": {\n                  \"name\": \"startDate\",\n                  {{#payload.request.intent.slots.startDate.value}}\n                  \"value\" : \"{{payload.request.intent.slots.startDate.value}}\",\n                  {{/payload.request.intent.slots.startDate.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"endDate\": {\n                  \"name\": \"endDate\",\n                  {{#payload.request.intent.slots.endDate.value}}\n                  \"value\" : \"{{payload.request.intent.slots.endDate.value}}\",\n                  {{/payload.request.intent.slots.endDate.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"vacationRequest\": {\n                  \"name\": \"vacationRequest\",\n                  {{#payload.request.intent.slots.vacationRequest.value}}\n                  \"value\" : \"{{payload.request.intent.slots.vacationRequest.value}}\",\n                  {{/payload.request.intent.slots.vacationRequest.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"bookRequest\": {\n                  \"name\": \"bookRequest\",\n                  {{#payload.request.intent.slots.bookRequest.value}}\n                  \"value\" : \"{{payload.request.intent.slots.bookRequest.value}}\",\n                  {{/payload.request.intent.slots.bookRequest.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"yesNo\": {\n                  \"name\": \"yesNo\",\n                  {{#payload.request.intent.slots.yesNo.value}}\n                  \"value\" : \"{{payload.request.intent.slots.yesNo.value}}\",\n                  {{/payload.request.intent.slots.yesNo.value}}\n                  \"confirmationStatus\": \"NONE\"\n                }\n              }\n            }\n          }\n        ]\n    }\n}",
+    "output": "json",
+    "x": 1460,
+    "y": 1620,
+    "wires": [
+        ["4c5d77c2.53b418", "487a9130.359cc"]
+    ]
+}, {
+    "id": "4c5d77c2.53b418",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1510,
+    "y": 1600,
+    "wires": []
+}, {
+    "id": "487a9130.359cc",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1630,
+    "y": 1620,
+    "wires": []
+}, {
+    "id": "9c3735ef.64dca8",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "Show total Vacation Days",
+    "info": "",
+    "x": 1490,
+    "y": 1560,
+    "wires": []
+}, {
+    "id": "6fea95f4.0808dc",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1490,
+    "y": 940,
+    "wires": []
+}, {
+    "id": "dc4890cc.2838b8",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Delegate Dialog",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"What can I do for you today?\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Need More Infos\",\n          \"text\": \"What can I do for you today?\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false\n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\",\n\t    \"totalDays\" : \"{{payload.request.intent.slots.totalDays.value}}\"\n    }\n}",
+    "output": "json",
+    "x": 1340,
+    "y": 1760,
+    "wires": [
+        ["cafff15c.1cbd68", "4ed09c06.eca674"]
+    ]
+}, {
+    "id": "cafff15c.1cbd68",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1410,
+    "y": 1740,
+    "wires": []
+}, {
+    "id": "4ed09c06.eca674",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1530,
+    "y": 1760,
+    "wires": []
+}, {
+    "id": "62de97b0.b6f9a8",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "Wait for nex input",
+    "info": "",
+    "x": 1360,
+    "y": 1700,
+    "wires": []
+}, {
+    "id": "7190246f.ebf754",
+    "type": "D10_getDocuments",
+    "z": "340af3c9.029eb4",
+    "application": "b3d50cb5.45512",
+    "queryOrId": "query",
+    "query": "amazonPin = 2409",
+    "defaultOptions": true,
+    "maxViewEntries": 0,
+    "maxDocuments": 0,
+    "maxMillisecs": 0,
+    "startValue": 0,
+    "countValue": 0,
+    "displayResults": "Default",
+    "itemNames": "demouser, vacationDays",
+    "onError": "ON_ERROR_CONTINUE",
+    "unids": "",
+    "name": "Get userName",
+    "x": 560,
+    "y": 1360,
+    "wires": [
+        ["90df0904.b2e0f8"]
+    ]
+}, {
+    "id": "eb0cebec.277378",
+    "type": "inject",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "x": 300,
+    "y": 1340,
+    "wires": [
+        ["7190246f.ebf754"]
+    ]
+}, {
+    "id": "90df0904.b2e0f8",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 760,
+    "y": 1340,
+    "wires": []
+}, {
+    "id": "36425d23.b90d62",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Booking Done",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"I booked {{payload.request.intent.slots.myDays.value}} days for you, from {{payload.request.intent.slots.startDate.value}} to {{payload.request.intent.slots.endDate.value}}. \\nWhat else can I do for you?\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Booking Done\",\n          \"text\": \"I booked {{payload.request.intent.slots.myDays.value}} days for you, from {{payload.request.intent.slots.startDate.value}} to {{payload.request.intent.slots.endDate.value}}.\\nYou now have {{ayload.request.intent.slots.totalDays.value}} vacation days left on your account !\", \n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false\n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\",\n\t    \"totalDays\" : \"{{payload.request.intent.slots.totalDays.value}}\"\n    }\n}",
+    "output": "json",
+    "x": 2360,
+    "y": 1220,
+    "wires": [
+        ["1b4aade9.c9fc3a", "53b33b15.32177c"]
+    ]
+}, {
+    "id": "1b4aade9.c9fc3a",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2430,
+    "y": 1200,
+    "wires": []
+}, {
+    "id": "53b33b15.32177c",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 2550,
+    "y": 1220,
+    "wires": []
+}, {
+    "id": "359bf7c6.1a9fb",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "Booking...",
+    "info": "",
+    "x": 2080,
+    "y": 1100,
+    "wires": []
+}, {
+    "id": "d5156feb.896ed8",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Ask for Booking",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"Good, tell me your vacation plan please\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Need More Infos\",\n          \"text\": \"Good, tell me your vacation plan please\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false\n    },\n    \"sessionAttributes\":{\n\t    \"userPIN\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n\t    \"userName\" : \"{{payload.request.intent.slots.userName.value}}\",\n\t    \"totalDays\" : \"{{payload.request.intent.slots.totalDays.value}}\"\n    }\n}\n",
+    "output": "json",
+    "x": 1440,
+    "y": 1100,
+    "wires": [
+        ["c56326cd.219dd8", "86609bab.1222"]
+    ]
+}, {
+    "id": "c56326cd.219dd8",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1510,
+    "y": 1080,
+    "wires": []
+}, {
+    "id": "86609bab.1222",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1630,
+    "y": 1100,
+    "wires": []
+}, {
+    "id": "a849ba8d.743488",
+    "type": "comment",
+    "z": "340af3c9.029eb4",
+    "name": "Wait for nex input",
+    "info": "",
+    "x": 1520,
+    "y": 1020,
+    "wires": []
+}, {
+    "id": "f47b75f2.185d5",
+    "type": "function",
+    "z": "340af3c9.029eb4",
+    "name": "Discover Dates",
+    "func": "function formatDate(date) {\n    var d = new Date(date),\n        month = '' + (d.getMonth() + 1),\n        day = '' + d.getDate(),\n        year = d.getFullYear();\n\n    if (month.length < 2) month = '0' + month;\n    if (day.length < 2) day = '0' + day;\n\n    return [year, month, day].join('-');\n}\nfunction addRealDays(startDate, numberOfDays) {\n    var endDate = \"\";\n    var count = 0;\n    var theDate = new Date(startDate);\n    while(count < numberOfDays){\n        endDate = new Date(theDate.setDate(theDate.getDate() + 1));\n        if(endDate.getDay() !== 0 && endDate.getDay() !== 6){\n           //Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)\n           count++;\n        }\n    }\n    return formatDate(endDate);//You can format this date as per your requirement\n}\n\nfunction countDays(startDate, endDate) {\n    var count = 0;\n    var theInitialDate = new Date(startDate);\n    var theFinalDate   = new Date(endDate);\n    while(theInitialDate.getTime() < endDate.getTime()){\n        theFinalDate = new Date(theInitialDate.setDate(theInitialDate.getDate() + 1));\n        if(theFinalDate.getDay() !== 0 && theFinalDate.getDay() !== 6){\n           //Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)\n           count++;\n        }\n    }\n    return count;\n}\n\nif (msg.payload.request.intent.slots.startDate.value) {\n    if (msg.payload.request.intent.slots.myDays.value) {\n        //\n        //  We have enough information to perform the booking\n        //  First calculate the endDate (counting sundays and saturdays)\n        //\n        msg.payload.request.intent.slots.endDate.value = addRealDays(msg.payload.request.intent.slots.startDate.value, msg.payload.request.intent.slots.myDays.value);\n        msg.payload.request.intent.slots.totalDays.value = msg.payload.request.intent.slots.totalDays.value - msg.payload.request.intent.slots.myDays.value;\n        msg.DDB_itemValues = {};\n        msg.DDB_itemValues.form = 'Vacation';\n        msg.DDB_itemValues.employeeName = msg.payload.request.intent.slots.userName.value;\n        msg.DDB_itemValues.vStart = {type : 'datetime', data : msg.payload.request.intent.slots.startDate.value};\n        msg.DDB_itemValues.vEnd = {type : 'datetime', data : msg.payload.request.intent.slots.endDate.value};\n        return [msg, null, null];\n    } else {\n        if (msg.payload.request.intent.slots.endDate.value) {\n            //\n            //  We have enough information to perform the booking\n            //  Find how many days (excluding sundays and saturdays) between those dates\n            //\n            msg.DDB_itemValues = {};\n            msg.DDB_itemValues.form = 'Vacation';\n            msg.DDB_itemValues.employeeName = msg.payload.request.intent.slots.userName.value;\n            msg.DDB_itemValues.vStart = {type : 'datetime', data : msg.payload.request.intent.slots.startDate.value};\n            msg.DDB_itemValues.vEnd = {type : 'datetime', data : msg.payload.request.intent.slots.endDate.value};\n            msg.payload.request.intent.slots.myDays.value = countDays(msg.payload.request.intent.slots.startDate.value, msg.payload.request.intent.slots.endDate.value);\n            msg.payload.request.intent.slots.totalDays.value = msg.payload.request.intent.slots.totalDays.value - msg.payload.request.intent.slots.myDays.value;\n            return [msg, null, null];\n        } else {\n            //\n            //  We need to elicit the duration or the endDate\n            //\n            return [null, msg, null];\n        }\n    }\n} else {\n    //\n    //  We need to elicit the startDate\n    //\n    return [null, null, msg];\n}\n",
+    "outputs": 3,
+    "noerr": 0,
+    "x": 1360,
+    "y": 1280,
+    "wires": [
+        ["211d2c11.45ff5c"],
+        ["5cc1c8f.0e506b8"],
+        ["10926af5.0ef1b5"]
+    ],
+    "outputLabels": ["Go to the Booking", "Elicit Duration", "Elicit StartDate"]
+}, {
+    "id": "5cc1c8f.0e506b8",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Elicit Duration",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"For how many days ?\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Need More Infos\",\n          \"text\": \"For how many days ?\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false,    \n        \"directives\": [\n          {\n            \"type\": \"Dialog.ElicitSlot\",\n            \"slotToElicit\": \"myDays\",\n            \"updatedIntent\": {\n              \"name\": \"{{payload.request.intent.name}}\",\n              \"confirmationStatus\": \"NONE\",\n              \"slots\": {\n                \"userPIN\": {\n                  \"name\": \"userPIN\",\n                  {{#payload.request.intent.slots.userPIN.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n                  {{/payload.request.intent.slots.userPIN.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"userName\": {\n                  \"name\": \"userName\",\n                  {{#payload.request.intent.slots.userName.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n                  {{/payload.request.intent.slots.userName.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"totalDays\": {\n                  \"name\": \"totalDays\",\n                  {{#payload.request.intent.slots.totalDays.value}}\n                  \"value\" : \"{{payload.request.intent.slots.totalDays.value}}\",\n                  {{/payload.request.intent.slots.totalDays.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"myDays\": {\n                  \"name\": \"myDays\",\n                  {{#payload.request.intent.slots.myDays.value}}\n                  \"value\" : \"{{payload.request.intent.slots.myDays.value}}\",\n                  {{/payload.request.intent.slots.myDays.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"startDate\": {\n                  \"name\": \"startDate\",\n                  {{#payload.request.intent.slots.startDate.value}}\n                  \"value\" : \"{{payload.request.intent.slots.startDate.value}}\",\n                  {{/payload.request.intent.slots.startDate.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"endDate\": {\n                  \"name\": \"endDate\",\n                  {{#payload.request.intent.slots.endDate.value}}\n                  \"value\" : \"{{payload.request.intent.slots.endDate.value}}\",\n                  {{/payload.request.intent.slots.endDate.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"vacationRequest\": {\n                  \"name\": \"vacationRequest\",\n                  {{#payload.request.intent.slots.vacationRequest.value}}\n                  \"value\" : \"{{payload.request.intent.slots.vacationRequest.value}}\",\n                  {{/payload.request.intent.slots.vacationRequest.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"bookRequest\": {\n                  \"name\": \"bookRequest\",\n                  {{#payload.request.intent.slots.bookRequest.value}}\n                  \"value\" : \"{{payload.request.intent.slots.bookRequest.value}}\",\n                  {{/payload.request.intent.slots.bookRequest.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"yesNo\": {\n                  \"name\": \"yesNo\",\n                  {{#payload.request.intent.slots.yesNo.value}}\n                  \"value\" : \"{{payload.request.intent.slots.yesNo.value}}\",\n                  {{/payload.request.intent.slots.yesNo.value}}\n                  \"confirmationStatus\": \"NONE\"\n                }\n              }\n            }\n          }\n        ]\n     }\n}\n",
+    "output": "json",
+    "x": 1580,
+    "y": 1320,
+    "wires": [
+        ["c0787186.bb1cb", "80142201.dc2a28"]
+    ]
+}, {
+    "id": "c0787186.bb1cb",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1650,
+    "y": 1300,
+    "wires": []
+}, {
+    "id": "80142201.dc2a28",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1770,
+    "y": 1320,
+    "wires": []
+}, {
+    "id": "10926af5.0ef1b5",
+    "type": "template",
+    "z": "340af3c9.029eb4",
+    "name": "Elicit Start Date",
+    "field": "payload",
+    "fieldType": "msg",
+    "format": "json",
+    "syntax": "mustache",
+    "template": "{\n     \"version\": \"1.0\",\n     \"response\": {\n        \"outputSpeech\": {\n            \"type\": \"PlainText\",\n            \"text\": \"When do you want to start your holidays ?\" \n        },\n        \"card\": {\n          \"type\": \"Standard\",\n          \"title\": \"Need More Infos\",\n          \"text\": \"When do you want to start your holidays ?\",\n          \"image\": {\n            \"smallImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\",\n            \"largeImageUrl\": \"https://d10demos.us-east.mybluemix.net/images/dominoV10.png\"\n          }\n        },\n        \"shouldEndSession\": false,    \n        \"directives\": [\n          {\n            \"type\": \"Dialog.ElicitSlot\",\n            \"slotToElicit\": \"startDate\",\n            \"updatedIntent\": {\n              \"name\": \"{{payload.request.intent.name}}\",\n              \"confirmationStatus\": \"NONE\",\n              \"slots\": {\n                \"userPIN\": {\n                  \"name\": \"userPIN\",\n                  {{#payload.request.intent.slots.userPIN.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userPIN.value}}\",\n                  {{/payload.request.intent.slots.userPIN.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"userName\": {\n                  \"name\": \"userName\",\n                  {{#payload.request.intent.slots.userName.value}}\n                  \"value\" : \"{{payload.request.intent.slots.userName.value}}\",\n                  {{/payload.request.intent.slots.userName.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"totalDays\": {\n                  \"name\": \"totalDays\",\n                  {{#payload.request.intent.slots.totalDays.value}}\n                  \"value\" : \"{{payload.request.intent.slots.totalDays.value}}\",\n                  {{/payload.request.intent.slots.totalDays.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"myDays\": {\n                  \"name\": \"myDays\",\n                  {{#payload.request.intent.slots.myDays.value}}\n                  \"value\" : \"{{payload.request.intent.slots.myDays.value}}\",\n                  {{/payload.request.intent.slots.myDays.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"startDate\": {\n                  \"name\": \"startDate\",\n                  {{#payload.request.intent.slots.startDate.value}}\n                  \"value\" : \"{{payload.request.intent.slots.startDate.value}}\",\n                  {{/payload.request.intent.slots.startDate.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"endDate\": {\n                  \"name\": \"endDate\",\n                  {{#payload.request.intent.slots.endDate.value}}\n                  \"value\" : \"{{payload.request.intent.slots.endDate.value}}\",\n                  {{/payload.request.intent.slots.endDate.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"vacationRequest\": {\n                  \"name\": \"vacationRequest\",\n                  {{#payload.request.intent.slots.vacationRequest.value}}\n                  \"value\" : \"{{payload.request.intent.slots.vacationRequest.value}}\",\n                  {{/payload.request.intent.slots.vacationRequest.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"bookRequest\": {\n                  \"name\": \"bookRequest\",\n                  {{#payload.request.intent.slots.bookRequest.value}}\n                  \"value\" : \"{{payload.request.intent.slots.bookRequest.value}}\",\n                  {{/payload.request.intent.slots.bookRequest.value}}\n                  \"confirmationStatus\": \"NONE\"\n                },\n                \"yesNo\": {\n                  \"name\": \"yesNo\",\n                  {{#payload.request.intent.slots.yesNo.value}}\n                  \"value\" : \"{{payload.request.intent.slots.yesNo.value}}\",\n                  {{/payload.request.intent.slots.yesNo.value}}\n                  \"confirmationStatus\": \"NONE\"\n                }\n              }\n            }\n          }\n        ]\n     }\n}\n",
+    "output": "json",
+    "x": 1580,
+    "y": 1400,
+    "wires": [
+        ["43e13a5.2d77944", "372d0a3c.e5aad6"]
+    ]
+}, {
+    "id": "43e13a5.2d77944",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1650,
+    "y": 1380,
+    "wires": []
+}, {
+    "id": "372d0a3c.e5aad6",
+    "type": "http response",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "statusCode": "",
+    "headers": {},
+    "x": 1770,
+    "y": 1400,
+    "wires": []
+}, {
+    "id": "211d2c11.45ff5c",
+    "type": "D10_documentMgr",
+    "z": "340af3c9.029eb4",
+    "application": "8ecc262e.f8aed8",
+    "documentOp": "create",
+    "unid": "",
+    "itemNames": "",
+    "itemValues": "",
+    "name": "Create Vacation Request",
+    "x": 1630,
+    "y": 1220,
+    "wires": [
+        ["98fc3d2a.42fe68", "45ad3aae.0ccb0c"]
+    ]
+}, {
+    "id": "98fc3d2a.42fe68",
+    "type": "function",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "func": "msg.DDB_query = \"amazonPin = \" + msg.payload.request.intent.slots.userPIN.value;\nmsg.DDB_itemValues = {};\nmsg.DDB_itemValues.vacationDays = msg.payload.request.intent.slots.totalDays.value;\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1870,
+    "y": 1220,
+    "wires": [
+        ["89014c00.02546"]
+    ]
+}, {
+    "id": "89014c00.02546",
+    "type": "D10_replaceDocuments",
+    "z": "340af3c9.029eb4",
+    "application": "b3d50cb5.45512",
+    "queryOrId": "query",
+    "documentsOrItems": "items",
+    "query": "",
+    "defaultOptions": true,
+    "maxViewEntries": 0,
+    "maxDocuments": 0,
+    "maxMillisecs": 0,
+    "startValue": 0,
+    "countValue": 0,
+    "displayResults": "Default",
+    "itemValues": "",
+    "itemValuesById": "",
+    "onError": "ON_ERROR_CONTINUE",
+    "name": "Reset Vacation Days",
+    "x": 2100,
+    "y": 1220,
+    "wires": [
+        ["36425d23.b90d62", "8ce83640.582b88"]
+    ]
+}, {
+    "id": "45ad3aae.0ccb0c",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 1790,
+    "y": 1160,
+    "wires": []
+}, {
+    "id": "8ce83640.582b88",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2230,
+    "y": 1160,
+    "wires": []
+}, {
+    "id": "dfa82eff.b055a8",
+    "type": "catch",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "scope": ["211d2c11.45ff5c", "89014c00.02546"],
+    "x": 2050,
+    "y": 1360,
+    "wires": [
+        ["cca31000.4898a8"]
+    ]
+}, {
+    "id": "cca31000.4898a8",
+    "type": "debug",
+    "z": "340af3c9.029eb4",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "x": 2210,
+    "y": 1340,
+    "wires": []
+}, {
+    "id": "b3d50cb5.45512",
+    "type": "dominodb",
+    "z": "",
+    "D10_server": "mydominoserver",
+    "D10_db": "demo/DemoConfig.nsf",
+    "D10_port": "17847",
+    "D10_isSecure": false,
+    "D10_rootCert": "",
+    "D10_clientCert": "",
+    "D10_clientKey": "",
+    "displayName": "DemoConfig DB"
+}, {
+    "id": "8ecc262e.f8aed8",
+    "type": "dominodb",
+    "z": "",
+    "D10_server": "mydominoserver",
+    "D10_db": "iPad/Expenses.nsf",
+    "D10_port": "17847",
+    "D10_isSecure": false,
+    "D10_rootCert": "",
+    "D10_clientCert": "",
+    "D10_clientKey": "",
+    "displayName": "Vacation DB"
+}]

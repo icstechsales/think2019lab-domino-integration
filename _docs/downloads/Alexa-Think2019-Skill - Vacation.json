@@ -1,0 +1,259 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "toymakers hr",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "What can I do ",
+                        "Domino Forever",
+                        "Which sentences can I say",
+                        "what can I say"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "nothing",
+                        "nothing thank you",
+                        "i am done",
+                        "no thank you",
+                        "I am done thank you",
+                        "it is ok"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "Plan_Vacation",
+                    "slots": [
+                        {
+                            "name": "totalDays",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "userPIN",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER",
+                            "samples": [
+                                "my pin is {userPIN} ",
+                                "my id is {userPIN}",
+                                "my pin code is {userPIN} ",
+                                "it is {userPIN} "
+                            ]
+                        },
+                        {
+                            "name": "userName",
+                            "type": "AMAZON.SearchQuery"
+                        },
+                        {
+                            "name": "myDays",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "startDate",
+                            "type": "AMAZON.DATE"
+                        },
+                        {
+                            "name": "endDate",
+                            "type": "AMAZON.DATE"
+                        },
+                        {
+                            "name": "yesNo",
+                            "type": "AMAZON.DATE"
+                        },
+                        {
+                            "name": "vacationRequest",
+                            "type": "vacationRequestType"
+                        },
+                        {
+                            "name": "bookRequest",
+                            "type": "bookRequestType"
+                        }
+                    ],
+                    "samples": [
+                        "{yesNo}",
+                        "check my {vacationRequest}",
+                        "{bookRequest} my holidays from {startDate} for {myDays} days",
+                        "i wish to {bookRequest} my holidays starting from {startDate} for {myDays} days",
+                        "{bookRequest} my holidays from {startDate} ",
+                        "can you {bookRequest} my holidays",
+                        "it is {userPIN}",
+                        "my id is {userPIN} ",
+                        "my pin is {userPIN} ",
+                        "my pin code is {userPIN} ",
+                        "how many {vacationRequest} left",
+                        "how many {vacationRequest} do i have",
+                        "check my {vacationRequest} days"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "YES_NO",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "ok"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "go"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "no"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yes"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "vacationRequestType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "days off"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "day off"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "holidays"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "vacation"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "bookRequestType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "reserve"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "book"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "Plan_Vacation",
+                    "delegationStrategy": "SKILL_RESPONSE",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "totalDays",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "userPIN",
+                            "type": "AMAZON.FOUR_DIGIT_NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1265422676106.1391607525665"
+                            }
+                        },
+                        {
+                            "name": "userName",
+                            "type": "AMAZON.SearchQuery",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "myDays",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "startDate",
+                            "type": "AMAZON.DATE",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "endDate",
+                            "type": "AMAZON.DATE",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "yesNo",
+                            "type": "AMAZON.DATE",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "vacationRequest",
+                            "type": "vacationRequestType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "bookRequest",
+                            "type": "bookRequestType",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "SKILL_RESPONSE"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.1265422676106.1391607525665",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "What is your PIN code "
+                    }
+                ]
+            }
+        ]
+    }
+}

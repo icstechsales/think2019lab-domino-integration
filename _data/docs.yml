@@ -7,6 +7,9 @@
 - title: Alexa Integration
   docs:
   - Alexa-Intro
+  - AlexaQuotesApplication
+  - AlexaVacationsApplication
+  - AlexaMonitorApplication
 
 - title: Node-RED domino-db article
   docs:
@@ -19,8 +22,3 @@
   - info-intro
   - nodes-documentation
   - appdev-pack-infos
-
-- title: Connecting Domino 10 to Slack
-  docs:
-  - alpha
-  - beta
