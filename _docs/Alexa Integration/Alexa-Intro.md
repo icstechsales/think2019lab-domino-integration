@@ -3,14 +3,14 @@ title: Overview
 permalink: /docs/Alexa-Intro/
 ---
 
-This page presents an overview of the integration one of the Amazon ALEXA Skills that has been shown during the **Think 2019 ICS Community Day** in February 2019.  
+This page presents an overview of the integration of the Amazon ALEXA Skills that has been shown during the **Think 2019 ICS Community Day** in February 2019.  
+The idea of the demo is to allow any person from the Toymakers Company to inquire the quotes she created and to modify their status. 
+
 The goal in this section is **not** to drill into the complexity of the NodeRED flow implementing the server-side part of the Amazon ALEXA Skill but, rather, to show how the use of the <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> has allowed us to create the flow with little or no knowdlege of the <strong style="color: #FEC70B; background-color: black">DOMINO</strong> databases (two of them) that were used to implement the skill.  
 
 More details about the integration are provided in the other pages of this section.
 
 <h2>The Implementation</h2>
-The idea of the demo was to allow any person from the Toymakers Company to inquire the quotes she created and to modify their status. 
-
 This integration is composed of two parts:
 - The first part is the definition of the Amazon ALEXA Skill itself, which happens inside the Amazon ALEXA Developer Portal.
 In order to give an idea, here is a screenshot of the Amazon ALEXA Skill definition:  
