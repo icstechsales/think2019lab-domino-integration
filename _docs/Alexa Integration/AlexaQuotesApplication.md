@@ -3,7 +3,7 @@ title: The Amazon Alexa QuotesDB skill
 permalink: /docs/AlexaQuotesApplication/
 ---
 
-This page provides the details about the implementation of the **Amazon ALEXA DominoDB** Skill.  
+This page provides the details about the implementation of the **Amazon ALEXA QuotesDB** Skill.  
 
 <h2>Skill Description</h2>
 The idea behind this skill is to allow any person from the Toymakers Company to inquire the quotes she created and to modify their status (approved, rejected or pending).
@@ -55,8 +55,6 @@ On devices that are enabled to display the Amazon ALEXA Card, you can also enjoy
 ![Amazon ALEXA iPad 02](../images/AlexaIntegration/Alexa-Quotes-iPad 02.png)
 
 ![Amazon ALEXA iPad 03](../images/AlexaIntegration/Alexa-Quotes-iPad 03.png)
-
-
 
 <h2>Pre-Requisites</h2>
 

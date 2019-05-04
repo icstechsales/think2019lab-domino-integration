@@ -3,12 +3,19 @@ title: Overview
 permalink: /docs/Alexa-Intro/
 ---
 
-This page presents an overview of the integration of the Amazon ALEXA Skills that has been shown during the **Think 2019 ICS Community Day** in February 2019.  
-The idea of the demo is to allow any person from the Toymakers Company to inquire the quotes she created and to modify their status. 
+This page presents an overview of the integration of one of the Amazon ALEXA Skills that have been shown during the **Think 2019 ICS Community Day** in February 2019.  
+A detailed explanation of each of the skills is provided in the remaining pages of this section.  
 
-The goal in this section is **not** to drill into the complexity of the NodeRED flow implementing the server-side part of the Amazon ALEXA Skill but, rather, to show how the use of the <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> has allowed us to create the flow with little or no knowdlege of the <strong style="color: #FEC70B; background-color: black">DOMINO</strong> databases (two of them) that were used to implement the skill.  
+In this page we select [The Amazon Alexa QuotesDB skill](../AlexaQuotesApplication/) as an example; we **will not** drill into the complexity of the NodeRED flow implementing the server-side part of the Amazon ALEXA Skill but we will, rather, show how the use of the <strong style="color: #FEC70B; background-color: black">NodeRED dominodb nodes</strong> has allowed us to create the flow with little or no knowdlege of the <strong style="color: #FEC70B; background-color: black">DOMINO</strong> databases (two of them) that were used to implement the skill.  
 
-More details about the integration are provided in the other pages of this section.
+<h2>Details</h2>
+More details about the integration are provided in the other pages of this section:
+-   [The Amazon Alexa QuotesDB skill](../AlexaQuotesApplication/)
+-   [The Amazon Alexa Vacations skill](../AlexaVacationsApplication/)
+-   [The Amazon Alexa Domino Monitor skill](../AlexaMonitorApplication/)
+
+A Video showing the live session from the **Think 2019 ICS Community Day** is available here [YouTube Video](https://www.youtube.com/watch?v=xbc78ms_nmc&feature=youtu.be) (look from minute 13:00)
+
 
 <h2>The Implementation</h2>
 This integration is composed of two parts:
